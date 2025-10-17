@@ -53,8 +53,22 @@ A comprehensive web application that provides clear daily market bias (Bullish/B
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your API keys (optional)
+   # Create .env.local and optionally copy keys below
+   cat > .env.local <<'EOF'
+NSE_API_KEY=
+RSS_API_KEY=
+CUSTOM_API_BASE_URL=
+ENABLE_LIVE_DATA=false
+ENABLE_NEWS_FETCH=true
+ENABLE_SECTOR_ANALYSIS=true
+DEBUG_MODE=false
+DEFAULT_CACHE_TTL=15
+NEWS_CACHE_TTL=30
+STOCK_CACHE_TTL=5
+API_TIMEOUT=5000
+MAX_RETRY_ATTEMPTS=3
+DEBOUNCE_DELAY=300
+EOF
    ```
 
 4. **Run the development server**

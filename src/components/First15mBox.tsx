@@ -35,8 +35,8 @@ export function First15mBox({ data, index, className }: First15mBoxProps) {
     const hour = istTime.getHours();
     const minute = istTime.getMinutes();
     const currentMinutes = hour * 60 + minute;
-    const marketOpen = 9 * 60 + 15; // 9:15 AM
-    return currentMinutes >= marketOpen;
+    const showTime = 9 * 60 + 30; // 9:30 AM - after first 15m completes
+    return currentMinutes >= showTime;
   };
 
   if (!data && !isAfterMarketOpen()) {
@@ -52,8 +52,8 @@ export function First15mBox({ data, index, className }: First15mBoxProps) {
           <div className="flex items-center justify-center py-8 text-gray-500">
             <div className="text-center">
               <Clock className="h-8 w-8 mx-auto mb-2" />
-              <div className="text-sm">Waiting for market to open</div>
-              <div className="text-xs">First 15m range will appear after 9:30 AM IST</div>
+              <div className="text-sm">Waiting for first 15 minutes to complete</div>
+              <div className="text-xs">First 15m range appears after 09:30 IST</div>
             </div>
           </div>
         </CardContent>

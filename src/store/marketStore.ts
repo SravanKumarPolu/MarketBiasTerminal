@@ -101,9 +101,14 @@ export const useMarketStore = create<MarketState & MarketActions>()(
         });
       },
 
-      fetchMarketData: async () => {
-        set({ isLoading: true, error: null });
-        try {
+      fetchMarketData: (function(){
+        let timer: ReturnType<typeof setTimeout> | null = null;
+        const DEBOUNCE_MS = 300;
+        return async function debouncedFetch() {
+          if (timer) clearTimeout(timer);
+          await new Promise<void>(resolve => { timer = setTimeout(resolve, DEBOUNCE_MS); });
+          set({ isLoading: true, error: null });
+          try {
           const { dataSource } = get();
           
           // Check if market is open
@@ -135,7 +140,8 @@ export const useMarketStore = create<MarketState & MarketActions>()(
             isLoading: false 
           });
         }
-      },
+        };
+      })(),
 
       fetchBias: async (index: 'NIFTY' | 'BANKNIFTY') => {
         try {
@@ -181,8 +187,13 @@ export const useMarketStore = create<MarketState & MarketActions>()(
         }
       },
 
-      fetchNews: async () => {
-        try {
+      fetchNews: (function(){
+        let timer: ReturnType<typeof setTimeout> | null = null;
+        const DEBOUNCE_MS = 300;
+        return async function debouncedNews() {
+          if (timer) clearTimeout(timer);
+          await new Promise<void>(resolve => { timer = setTimeout(resolve, DEBOUNCE_MS); });
+          try {
           const { dataSource } = get();
           const newsItems = await dataSource.getNews();
           
@@ -198,7 +209,8 @@ export const useMarketStore = create<MarketState & MarketActions>()(
         } catch (error) {
           console.error('Failed to fetch news:', error);
         }
-      },
+        };
+      })(),
 
       fetchSectors: async () => {
         try {

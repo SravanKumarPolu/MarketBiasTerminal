@@ -201,10 +201,11 @@ export class MockAdapter extends BaseDataSource {
   }
 
   async getTradingHolidays(): Promise<string[]> {
-    // NSE trading holidays for 2024-2025
+    // NSE trading holidays for 2024-2025 (sample, can be extended/updated)
     return [
+      // 2024
       '2024-01-26', // Republic Day
-      '2024-03-08', // Holi
+      '2024-03-08', // Mahashivratri/Holi (example)
       '2024-03-29', // Good Friday
       '2024-04-11', // Eid ul Fitr
       '2024-04-17', // Ram Navami
@@ -214,9 +215,24 @@ export class MockAdapter extends BaseDataSource {
       '2024-08-26', // Janmashtami
       '2024-10-02', // Gandhi Jayanti
       '2024-10-12', // Dussehra
-      '2024-11-01', // Diwali
+      '2024-11-01', // Diwali (example)
       '2024-11-15', // Guru Nanak Jayanti
       '2024-12-25', // Christmas
+      // 2025 (illustrative set)
+      '2025-01-26', // Republic Day
+      '2025-03-14', // Holi (example)
+      '2025-04-18', // Good Friday
+      '2025-03-31', // Eid ul Fitr (example)
+      '2025-04-06', // Ram Navami (example)
+      '2025-05-01', // Maharashtra Day
+      '2025-06-07', // Eid ul Adha (example)
+      '2025-08-15', // Independence Day
+      '2025-08-27', // Janmashtami (example)
+      '2025-10-02', // Gandhi Jayanti
+      '2025-10-01', // Dussehra (example)
+      '2025-10-20', // Diwali (example)
+      '2025-11-05', // Guru Nanak Jayanti (example)
+      '2025-12-25', // Christmas
     ];
   }
 }

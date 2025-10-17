@@ -19,7 +19,22 @@ export abstract class BaseDataSource implements MarketDataSource {
     this.baseUrl = baseUrl;
   }
 
+  private getUserCacheTTL(): number | null {
+    try {
+      if (typeof window === 'undefined') return null;
+      const persisted = window.localStorage.getItem('market-store');
+      if (!persisted) return null;
+      const parsed = JSON.parse(persisted);
+      const minutes = parsed?.state?.settings?.cacheTTL;
+      if (typeof minutes === 'number' && minutes >= 5 && minutes <= 60) {
+        return minutes * 60 * 1000;
+      }
+    } catch {}
+    return null;
+  }
+
   protected async getCachedData<T>(key: string, fetcher: () => Promise<T>, ttl: number = 15 * 60 * 1000): Promise<T> {
+    const effectiveTtl = this.getUserCacheTTL() ?? ttl;
     const cached = this.cache.get(key);
     const now = Date.now();
 
@@ -28,7 +43,7 @@ export abstract class BaseDataSource implements MarketDataSource {
     }
 
     const data = await fetcher();
-    this.cache.set(key, { data, timestamp: now, ttl });
+    this.cache.set(key, { data, timestamp: now, ttl: effectiveTtl });
     return data;
   }
 
