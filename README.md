@@ -53,23 +53,27 @@ A comprehensive web application that provides clear daily market bias (Bullish/B
 
 3. **Set up environment variables**
    ```bash
-   # Create .env.local and optionally copy keys below
-   cat > .env.local <<'EOF'
-NSE_API_KEY=
-RSS_API_KEY=
-CUSTOM_API_BASE_URL=
-ENABLE_LIVE_DATA=false
-ENABLE_NEWS_FETCH=true
-ENABLE_SECTOR_ANALYSIS=true
-DEBUG_MODE=false
-DEFAULT_CACHE_TTL=15
-NEWS_CACHE_TTL=30
-STOCK_CACHE_TTL=5
-API_TIMEOUT=5000
-MAX_RETRY_ATTEMPTS=3
-DEBOUNCE_DELAY=300
-EOF
+   # Copy the example environment file
+   cp .env.example .env.local
+   
+   # Edit .env.local with your configuration
+   nano .env.local
    ```
+   
+   **Environment Variables:**
+   - `NSE_API_KEY`: Your NSE API key for live data
+   - `RSS_API_KEY`: Your RSS API key for news feeds
+   - `CUSTOM_API_BASE_URL`: Custom API endpoint URL
+   - `ENABLE_LIVE_DATA`: Enable live data (true/false)
+   - `ENABLE_NEWS_FETCH`: Enable news fetching (true/false)
+   - `ENABLE_SECTOR_ANALYSIS`: Enable sector analysis (true/false)
+   - `DEBUG_MODE`: Enable debug logging (true/false)
+   - `DEFAULT_CACHE_TTL`: Default cache TTL in minutes (default: 15)
+   - `NEWS_CACHE_TTL`: News cache TTL in minutes (default: 30)
+   - `STOCK_CACHE_TTL`: Stock data cache TTL in minutes (default: 5)
+   - `API_TIMEOUT`: API timeout in milliseconds (default: 5000)
+   - `MAX_RETRY_ATTEMPTS`: Maximum retry attempts (default: 3)
+   - `DEBOUNCE_DELAY`: Debounce delay in milliseconds (default: 300)
 
 4. **Run the development server**
    ```bash

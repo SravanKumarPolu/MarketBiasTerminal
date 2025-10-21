@@ -170,16 +170,21 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           // Calculate key levels
           const keyLevels = biasEngine.calculateKeyLevels(previousDayData);
           
+          // Calculate first 15m data
+          const first15mData = biasEngine.calculateFirst15mData(oneHourCandles);
+          
           // Update state
           if (index === 'NIFTY') {
             set({ 
               niftyBias: bias,
-              keyLevels: { ...get().keyLevels, nifty: keyLevels }
+              keyLevels: { ...get().keyLevels, nifty: keyLevels },
+              first15m: { ...get().first15m, nifty: first15mData }
             });
           } else {
             set({ 
               bankNiftyBias: bias,
-              keyLevels: { ...get().keyLevels, bankNifty: keyLevels }
+              keyLevels: { ...get().keyLevels, bankNifty: keyLevels },
+              first15m: { ...get().first15m, bankNifty: first15mData }
             });
           }
         } catch (error) {

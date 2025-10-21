@@ -286,6 +286,43 @@ export class BiasEngine {
       roundNumbers: roundNumbers.slice(0, 5), // Limit to 5 levels
     };
   }
+
+  calculateFirst15mData(oneHourCandles: Candles[]): { high: number; low: number; isComplete: boolean; timestamp: string } {
+    // Get the first 15 minutes of trading (9:15 AM to 9:30 AM IST)
+    const today = new Date();
+    const marketOpen = new Date(today);
+    marketOpen.setHours(9, 15, 0, 0);
+    
+    const first15mEnd = new Date(today);
+    first15mEnd.setHours(9, 30, 0, 0);
+    
+    // Filter candles for first 15 minutes
+    const first15mCandles = oneHourCandles.filter(candle => {
+      const candleTime = new Date(candle.timestamp);
+      return candleTime >= marketOpen && candleTime <= first15mEnd;
+    });
+    
+    if (first15mCandles.length === 0) {
+      // If no data available, return default values
+      return {
+        high: 0,
+        low: 0,
+        isComplete: false,
+        timestamp: new Date().toISOString()
+      };
+    }
+    
+    const high = Math.max(...first15mCandles.map(c => c.high));
+    const low = Math.min(...first15mCandles.map(c => c.low));
+    const isComplete = new Date() > first15mEnd;
+    
+    return {
+      high,
+      low,
+      isComplete,
+      timestamp: first15mCandles[0].timestamp
+    };
+  }
 }
 
 // Singleton instance
