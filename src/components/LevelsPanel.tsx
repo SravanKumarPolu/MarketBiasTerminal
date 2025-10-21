@@ -13,9 +13,29 @@ interface LevelsPanelProps {
 }
 
 export function LevelsPanel({ levels, index, className }: LevelsPanelProps) {
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success('Copied to clipboard');
+  const copyToClipboard = async (text: string) => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        toast.success('Copied to clipboard');
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        textArea.remove();
+        toast.success('Copied to clipboard');
+      }
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      toast.error('Failed to copy to clipboard');
+    }
   };
 
   const formatLevel = (level: number) => {

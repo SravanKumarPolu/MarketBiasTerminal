@@ -82,7 +82,15 @@ export default function NewsPage() {
 
   const openNewsLink = (link: string) => {
     if (link !== '#') {
-      window.open(link, '_blank', 'noopener,noreferrer');
+      try {
+        window.open(link, '_blank', 'noopener,noreferrer');
+      } catch (error) {
+        console.error('Failed to open news link:', error);
+        // Fallback: try to navigate to the link
+        if (typeof window !== 'undefined') {
+          window.location.href = link;
+        }
+      }
     }
   };
 

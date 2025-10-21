@@ -35,24 +35,45 @@ export function NewsList({ news, className }: NewsListProps) {
   };
 
   const formatTimeAgo = (pubDate: string) => {
-    const now = new Date();
-    const newsDate = new Date(pubDate);
-    const diffInMinutes = Math.floor((now.getTime() - newsDate.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}m ago`;
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60);
-      return `${hours}h ago`;
-    } else {
-      const days = Math.floor(diffInMinutes / 1440);
-      return `${days}d ago`;
+    try {
+      const now = new Date();
+      const newsDate = new Date(pubDate);
+      
+      // Check if date is valid
+      if (isNaN(newsDate.getTime())) {
+        return 'Invalid date';
+      }
+      
+      const diffInMinutes = Math.floor((now.getTime() - newsDate.getTime()) / (1000 * 60));
+      
+      if (diffInMinutes < 0) {
+        return 'Just now';
+      } else if (diffInMinutes < 60) {
+        return `${diffInMinutes}m ago`;
+      } else if (diffInMinutes < 1440) {
+        const hours = Math.floor(diffInMinutes / 60);
+        return `${hours}h ago`;
+      } else {
+        const days = Math.floor(diffInMinutes / 1440);
+        return `${days}d ago`;
+      }
+    } catch (error) {
+      console.error('Error formatting time ago:', error);
+      return 'Unknown time';
     }
   };
 
   const openNewsLink = (link: string) => {
     if (link !== '#') {
-      window.open(link, '_blank', 'noopener,noreferrer');
+      try {
+        window.open(link, '_blank', 'noopener,noreferrer');
+      } catch (error) {
+        console.error('Failed to open news link:', error);
+        // Fallback: try to navigate to the link
+        if (typeof window !== 'undefined') {
+          window.location.href = link;
+        }
+      }
     }
   };
 

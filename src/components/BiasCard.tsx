@@ -34,17 +34,34 @@ export function BiasCard({ bias, className }: BiasCardProps) {
   };
 
   const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 70) return 'bg-green-500';
-    if (confidence >= 40) return 'bg-yellow-500';
-    return 'bg-red-500';
+    try {
+      if (isNaN(confidence) || !isFinite(confidence)) {
+        return 'bg-gray-500';
+      }
+      if (confidence >= 70) return 'bg-green-500';
+      if (confidence >= 40) return 'bg-yellow-500';
+      return 'bg-red-500';
+    } catch (error) {
+      console.error('Error getting confidence color:', error);
+      return 'bg-gray-500';
+    }
   };
 
   const formatTime = (timestamp: string) => {
-    return new Date(timestamp).toLocaleTimeString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    try {
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        return 'Invalid time';
+      }
+      return date.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
+    }
   };
 
   return (
@@ -66,13 +83,15 @@ export function BiasCard({ bias, className }: BiasCardProps) {
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <div className="text-2xl font-bold">
-              {bias.score > 0 ? '+' : ''}{bias.score}
+              {isNaN(bias.score) || !isFinite(bias.score) ? '0' : (bias.score > 0 ? '+' : '') + bias.score}
             </div>
             <div className="text-sm text-gray-600">Bias Score</div>
           </div>
           
           <div className="space-y-1 text-right">
-            <div className="text-lg font-semibold">{bias.confidence}%</div>
+            <div className="text-lg font-semibold">
+              {isNaN(bias.confidence) || !isFinite(bias.confidence) ? '0' : bias.confidence}%
+            </div>
             <div className="text-sm text-gray-600">Confidence</div>
           </div>
         </div>
@@ -86,7 +105,7 @@ export function BiasCard({ bias, className }: BiasCardProps) {
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
               className={`h-2 rounded-full ${getConfidenceColor(bias.confidence)} transition-all duration-300`}
-              style={{ width: `${bias.confidence}%` }}
+              style={{ width: `${Math.min(100, Math.max(0, isNaN(bias.confidence) || !isFinite(bias.confidence) ? 0 : bias.confidence))}%` }}
             />
           </div>
         </div>

@@ -13,30 +13,63 @@ interface First15mBoxProps {
 
 export function First15mBox({ data, index, className }: First15mBoxProps) {
   const formatTime = (timestamp: string) => {
-    return new Date(timestamp).toLocaleTimeString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    try {
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        return 'Invalid time';
+      }
+      return date.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
+    }
   };
 
   const formatPrice = (price: number) => {
-    return price.toFixed(2);
+    try {
+      if (isNaN(price) || !isFinite(price)) {
+        return '0.00';
+      }
+      return price.toFixed(2);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return '0.00';
+    }
   };
 
   const getRangeSize = () => {
     if (!data) return 0;
-    return data.high - data.low;
+    try {
+      const range = data.high - data.low;
+      return isNaN(range) || !isFinite(range) ? 0 : range;
+    } catch (error) {
+      console.error('Error calculating range size:', error);
+      return 0;
+    }
   };
 
   const isAfterMarketOpen = () => {
-    const now = new Date();
-    const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-    const hour = istTime.getHours();
-    const minute = istTime.getMinutes();
-    const currentMinutes = hour * 60 + minute;
-    const showTime = 9 * 60 + 30; // 9:30 AM - after first 15m completes
-    return currentMinutes >= showTime;
+    try {
+      const now = new Date();
+      const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+      
+      if (isNaN(istTime.getTime())) {
+        return false; // If timezone conversion fails, assume not after market open
+      }
+      
+      const hour = istTime.getHours();
+      const minute = istTime.getMinutes();
+      const currentMinutes = hour * 60 + minute;
+      const showTime = 9 * 60 + 30; // 9:30 AM - after first 15m completes
+      return currentMinutes >= showTime;
+    } catch (error) {
+      console.error('Error checking market time:', error);
+      return false;
+    }
   };
 
   if (!data && !isAfterMarketOpen()) {
