@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, Clock, AlertCircle } from 'lucide-react';
 import { marketScheduler } from '@/utils/scheduler';
 import { SEOHead } from '@/components/SEOHead';
+import { registerServiceWorker } from '@/utils/registerSW';
 
 export default function Dashboard() {
   const {
@@ -34,6 +35,9 @@ export default function Dashboard() {
     // Initialize scheduler and fetch initial data
     marketScheduler.start();
     fetchMarketData();
+    
+    // Register service worker for auto-updates
+    registerServiceWorker();
   }, [fetchMarketData]);
 
   const handleRefresh = async () => {

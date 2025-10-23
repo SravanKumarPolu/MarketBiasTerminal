@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:production": "BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) next build && next export"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",

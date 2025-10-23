@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AutoUpdate } from "@/components/AutoUpdate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,6 +97,7 @@ export default function RootLayout({
           <Navigation />
           {children}
           <Footer />
+          <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
           <Toaster />
           {/* Structured Data */}
           <script
