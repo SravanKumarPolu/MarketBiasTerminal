@@ -4,7 +4,7 @@ import { Candles, PreviousDayData, SectorMove, NewsItem, StockInfo } from '@/typ
 
 export class LiveAdapter extends BaseDataSource {
   private mockAdapter: MockAdapter;
-  private useMockFallback: boolean = true;
+  private useMockFallback: boolean = true; // Keep mock fallback enabled for reliable data
   private apiKey: string | null = null;
 
   constructor() {

@@ -74,7 +74,7 @@ const defaultSettings: UserSettings = {
 export const useMarketStore = create<MarketState & MarketActions>()(
   persist(
     (set, get) => ({
-      // Initial state
+      // Initial state - Use MockAdapter for reliable data
       dataSource: new MockAdapter(),
       useLiveData: false,
       niftyBias: null,
@@ -119,10 +119,8 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           
           set({ isMarketOpen, isHoliday });
           
-          if (!isMarketOpen || isHoliday) {
-            set({ isLoading: false });
-            return;
-          }
+          // Always fetch data, but show appropriate messages for market status
+          // This allows users to see historical data and news even when market is closed
           
           // Fetch all data in parallel
           await Promise.all([
@@ -201,10 +199,9 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           }
         } catch (error) {
           console.error(`Failed to fetch bias for ${index}:`, error);
-          set({ 
-            error: `Failed to fetch ${index} bias: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            isLoading: false 
-          });
+          // Don't set error state for individual bias failures, just log them
+          // This prevents the entire dashboard from showing error state
+          console.warn(`Continuing without ${index} bias data`);
         }
       },
 

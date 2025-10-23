@@ -132,21 +132,49 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-6">
             {/* Bias Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {niftyBias && (
+              {niftyBias ? (
                 <BiasCard bias={niftyBias} />
+              ) : (
+                <div className="w-full">
+                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
+                    <div className="text-sm">NIFTY Bias - Loading...</div>
+                    <div className="text-xs mt-1">Fetching market data</div>
+                  </div>
+                </div>
               )}
-              {bankNiftyBias && (
+              {bankNiftyBias ? (
                 <BiasCard bias={bankNiftyBias} />
+              ) : (
+                <div className="w-full">
+                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
+                    <div className="text-sm">BANKNIFTY Bias - Loading...</div>
+                    <div className="text-xs mt-1">Fetching market data</div>
+                  </div>
+                </div>
               )}
             </div>
 
             {/* Levels Panels */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {keyLevels.nifty && (
+              {keyLevels.nifty ? (
                 <LevelsPanel levels={keyLevels.nifty} index="NIFTY" />
+              ) : (
+                <div className="w-full">
+                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
+                    <div className="text-sm">NIFTY Levels - Loading...</div>
+                    <div className="text-xs mt-1">Calculating key levels</div>
+                  </div>
+                </div>
               )}
-              {keyLevels.bankNifty && (
+              {keyLevels.bankNifty ? (
                 <LevelsPanel levels={keyLevels.bankNifty} index="BANKNIFTY" />
+              ) : (
+                <div className="w-full">
+                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
+                    <div className="text-sm">BANKNIFTY Levels - Loading...</div>
+                    <div className="text-xs mt-1">Calculating key levels</div>
+                  </div>
+                </div>
               )}
             </div>
 
