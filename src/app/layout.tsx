@@ -37,13 +37,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://dailybias.in',
+    url: 'https://dailyindianbias.netlify.app/',
     siteName: 'Daily Bias India',
     title: 'Daily Bias India - Trade Smart. Trade Aligned.',
     description: 'Get clear daily market bias for Indian markets with actionable context. Optimized for NIFTY 50 and BANK NIFTY.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: 'https://dailyindianbias.netlify.app/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Daily Bias India - Market Analysis Platform',
@@ -54,10 +54,23 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Daily Bias India - Trade Smart. Trade Aligned.',
     description: 'Get clear daily market bias for Indian markets with actionable context.',
-    images: ['/og-image.jpg'],
+    images: ['https://dailyindianbias.netlify.app/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://dailybias.in',
+    canonical: 'https://dailyindianbias.netlify.app/',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#2563eb' },
+    ],
   },
 };
 
@@ -90,7 +103,7 @@ export default function RootLayout({
                 "@type": "WebApplication",
                 "name": "Daily Bias India",
                 "description": "Get clear daily market bias for Indian markets with actionable context. Optimized for NIFTY 50 and BANK NIFTY.",
-                "url": "https://dailybias.in",
+                "url": "https://dailyindianbias.netlify.app/",
                 "applicationCategory": "FinanceApplication",
                 "operatingSystem": "Web Browser",
                 "offers": {
@@ -101,7 +114,7 @@ export default function RootLayout({
                 "creator": {
                   "@type": "Organization",
                   "name": "Daily Bias India",
-                  "url": "https://dailybias.in"
+                  "url": "https://dailyindianbias.netlify.app/"
                 }
               })
             }}

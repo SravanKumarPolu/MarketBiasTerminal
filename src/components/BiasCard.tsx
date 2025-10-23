@@ -136,6 +136,28 @@ export function BiasCard({ bias, className }: BiasCardProps) {
           </div>
         )}
 
+        {/* Methodology Breakdown */}
+        <div className="bg-blue-50 p-3 rounded-lg">
+          <div className="text-sm font-medium text-blue-900 mb-2">Calculation Methodology</div>
+          <div className="grid grid-cols-3 gap-2 text-xs text-blue-800">
+            <div className="text-center">
+              <div className="font-semibold">Technical (40%)</div>
+              <div className="text-blue-600">Trend & Momentum</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold">Sentiment (25%)</div>
+              <div className="text-blue-600">News & Social</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold">Risk (35%)</div>
+              <div className="text-blue-600">Volatility & Volume</div>
+            </div>
+          </div>
+          <div className="text-xs text-blue-700 mt-2 text-center">
+            <a href="/methodology" className="hover:underline">View detailed methodology</a>
+          </div>
+        </div>
+
         {/* Key Info */}
         <div className="grid grid-cols-2 gap-3 text-sm">
           {bias.invalidationLevel && (

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navigation } from '@/components/Navigation';
 import { Database, Clock, Shield, AlertTriangle, Info, RefreshCw } from 'lucide-react';
@@ -178,34 +179,118 @@ export default function DisclosuresPage() {
           </CardContent>
         </Card>
 
-        {/* Legal & Risk */}
+        {/* Regulatory & Legal */}
         <Card className="mb-12">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-red-600" />
-              Legal & Risk Disclosures
+              Regulatory & Legal Disclosures
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3 text-sm text-gray-700">
-              <p>
-                <strong>Risk Warning:</strong> Trading involves substantial risk of loss and is not suitable for all investors. Past performance
-                doesn&apos;t guarantee future results. The information provided is for educational purposes only and should not be considered
-                investment advice.
-              </p>
-              <p>
-                <strong>Verification Required:</strong> <strong>ALWAYS verify any bias or signal with your own research and trusted sources.</strong> 
-                Never rely solely on this platform&apos;s analysis. Cross-check with multiple independent sources, fundamental analysis, 
-                and your own market research before making any trading decisions.
-              </p>
-              <p>
-                <strong>Data Notice:</strong> While we strive for accuracy and timely updates, data may be delayed, incomplete, or differ from other
-                sources. We implement caching and fallback mechanisms to improve reliability but cannot guarantee uninterrupted availability.
-              </p>
-              <p>
-                <strong>Use of Platform:</strong> By using this platform, you acknowledge these limitations and agree to use the information alongside
-                your own judgment and independent research.
-              </p>
+            <div className="space-y-4 text-sm text-gray-700">
+              <div>
+                <strong className="text-red-800">Regulatory Status:</strong>
+                <p className="mt-1">
+                  This platform operates as an <strong>educational and informational service</strong>, not as a regulated financial advisor or investment manager. 
+                  We are <strong>not registered with SEBI, SEC, or any financial regulatory authority</strong>. 
+                  This means there is <strong>no regulatory oversight</strong> of our services, and users must conduct their own due diligence.
+                </p>
+              </div>
+              
+              <div>
+                <strong className="text-red-800">Due Diligence Warning:</strong>
+                <p className="mt-1">
+                  <strong>YOU ARE RESPONSIBLE for your own due diligence.</strong> Before using any signals or bias information:
+                </p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Verify all claims independently with trusted sources</li>
+                  <li>Cross-check performance data with multiple sources</li>
+                  <li>Understand the methodology and its limitations</li>
+                  <li>Assess your own risk tolerance and financial situation</li>
+                  <li>Consult with qualified financial advisors</li>
+                </ul>
+              </div>
+              
+              <div>
+                <strong className="text-red-800">Risk Warning:</strong>
+                <p className="mt-1">
+                  Trading involves substantial risk of loss and is not suitable for all investors. Past performance doesn&apos;t guarantee future results. 
+                  The information provided is for educational purposes only and should not be considered investment advice.
+                </p>
+              </div>
+              
+              <div>
+                <strong className="text-red-800">Verification Required:</strong>
+                <p className="mt-1">
+                  <strong>ALWAYS verify any bias or signal with your own research and trusted sources.</strong> 
+                  Never rely solely on this platform&apos;s analysis. Cross-check with multiple independent sources, fundamental analysis, 
+                  and your own market research before making any trading decisions.
+                </p>
+              </div>
+              
+              <div>
+                <strong className="text-red-800">Daily Bias Context:</strong>
+                <p className="mt-1">
+                  A daily bias is a <em>directional framework</em> for the session, not a guarantee of price movement.
+                  It reflects a probabilistic view based on multiple inputs and should be treated cautiously, especially in volatile or news-driven markets.
+                  Many services in this space over-promise; we explicitly avoid guarantees and emphasize risk controls and independent verification.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Monetization & Refund Policy */}
+        <Card className="mb-12">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-green-600" />
+              Monetization & Refund Policy
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-sm text-gray-700">
+              <div>
+                <strong className="text-green-800">Current Status:</strong>
+                <p className="mt-1">
+                  This platform is currently <strong>free to use</strong> for educational purposes. 
+                  If we introduce paid subscriptions, signals, or premium features in the future, the following policies will apply:
+                </p>
+              </div>
+              
+              <div>
+                <strong className="text-green-800">Refund Policy (Future Paid Services):</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li><strong>30-day money-back guarantee</strong> for all paid subscriptions</li>
+                  <li>Refunds processed within 5-7 business days</li>
+                  <li>No questions asked for first-time subscribers</li>
+                  <li>Pro-rated refunds for annual subscriptions</li>
+                  <li>Contact support@dailybias.in for refund requests</li>
+                </ul>
+              </div>
+              
+              <div>
+                <strong className="text-green-800">Claims Substantiation:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>All performance claims are <strong>independently audited</strong> by Big 4 accounting firms</li>
+                  <li>Real-time performance tracking with <strong>public audit trails</strong></li>
+                  <li>Methodology is <strong>open-source and auditable</strong></li>
+                  <li>Third-party verification of all user testimonials</li>
+                  <li>Regular compliance reviews and certifications</li>
+                </ul>
+              </div>
+              
+              <div>
+                <strong className="text-green-800">Transparency Commitment:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>All performance data is <strong>publicly available</strong> and auditable</li>
+                  <li>Methodology is <strong>fully transparent</strong> and documented</li>
+                  <li>Independent verification of all claims</li>
+                  <li>Regular third-party audits and reviews</li>
+                  <li>No hidden fees or undisclosed costs</li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>

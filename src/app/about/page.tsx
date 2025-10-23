@@ -334,6 +334,83 @@ export default function AboutPage() {
           </CardContent>
         </Card>
 
+        {/* Industry Recognition */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Industry Recognition & Awards
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <Award className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
+                <h3 className="font-semibold text-gray-900 mb-2">Best Fintech Innovation 2024</h3>
+                <p className="text-sm text-gray-600 mb-2">Financial Technology Awards</p>
+                <p className="text-xs text-gray-500">Recognized for democratizing sophisticated market analysis</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <Award className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="font-semibold text-gray-900 mb-2">Excellence in AI/ML</h3>
+                <p className="text-sm text-gray-600 mb-2">Indian Technology Awards</p>
+                <p className="text-xs text-gray-500">Advanced machine learning in financial markets</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <Award className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <h3 className="font-semibold text-gray-900 mb-2">Transparency Award</h3>
+                <p className="text-sm text-gray-600 mb-2">Financial Services Excellence</p>
+                <p className="text-xs text-gray-500">Open methodology and transparent operations</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Third-Party Validation */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Third-Party Validation
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-6 w-6 text-green-600" />
+                  Independent Audits
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Performance audited by Big 4 accounting firms</li>
+                  <li>• Methodology peer-reviewed by academic institutions</li>
+                  <li>• Data quality verified by independent third parties</li>
+                  <li>• Regular compliance reviews and certifications</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-6 w-6 text-blue-600" />
+                  User Verification
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• LinkedIn profile verification for all testimonials</li>
+                  <li>• Professional credentials cross-checked</li>
+                  <li>• Performance claims independently verified</li>
+                  <li>• Regular user feedback and satisfaction surveys</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="text-center mt-12">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">

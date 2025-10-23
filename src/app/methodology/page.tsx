@@ -223,6 +223,10 @@ export default function MethodologyPage() {
                     to create a comprehensive market bias analysis system. Our methodology is 
                     built on three core principles:
                   </p>
+                  <div className="mb-4 p-3 rounded border bg-yellow-50 border-yellow-200 text-yellow-900 text-sm">
+                    <strong>Important:</strong> The daily bias is a <em>directional framework</em> for the session, not a prediction guarantee.
+                    It reflects a probabilistic assessment that should be used alongside your own analysis, risk limits, and verification from trusted sources.
+                  </div>
                   <ul className="space-y-2 text-sm text-gray-600">
                     <li className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-green-600" />

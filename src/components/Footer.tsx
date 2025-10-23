@@ -87,8 +87,23 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/settings" className="text-gray-300 hover:text-white transition-colors">
-                  Settings
+                <Link href="/performance" className="text-gray-300 hover:text-white transition-colors">
+                  Performance
+                </Link>
+              </li>
+              <li>
+                <Link href="/testimonials" className="text-gray-300 hover:text-white transition-colors">
+                  Testimonials
+                </Link>
+              </li>
+              <li>
+                <Link href="/disclosures" className="text-gray-300 hover:text-white transition-colors">
+                  Disclosures
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-gray-300 hover:text-white transition-colors">
+                  Terms of Service
                 </Link>
               </li>
             </ul>
