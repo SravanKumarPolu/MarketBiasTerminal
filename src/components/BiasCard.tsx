@@ -164,6 +164,16 @@ export function BiasCard({ bias, className }: BiasCardProps) {
             <div className="text-xs text-blue-800">{bias.primaryTrigger}</div>
           </div>
         )}
+
+        {/* Verification Warning */}
+        <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
+          <div className="flex items-start gap-2">
+            <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+            <div className="text-xs text-yellow-800">
+              <strong>Important:</strong> Always verify this bias with your own research and trusted sources before making any trading decisions. This analysis is for educational purposes only.
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

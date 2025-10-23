@@ -59,6 +59,11 @@ export function Footer() {
                   News
                 </Link>
               </li>
+              <li>
+                <Link href="/disclosures" className="text-gray-300 hover:text-white transition-colors">
+                  Disclosures
+                </Link>
+              </li>
             </ul>
           </div>
 

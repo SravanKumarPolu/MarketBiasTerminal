@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { RefreshCw, Clock, AlertCircle } from 'lucide-react';
 import { marketScheduler } from '@/utils/scheduler';
+import { SEOHead } from '@/components/SEOHead';
 
 export default function Dashboard() {
   const {
@@ -52,6 +53,12 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEOHead 
+        title="Dashboard - NIFTY & BANKNIFTY Market Analysis"
+        description="Real-time market bias analysis for NIFTY and BANKNIFTY. Get daily trading insights, key levels, and market sentiment with AI-powered analysis."
+        keywords={['NIFTY analysis', 'BANKNIFTY analysis', 'market bias', 'trading dashboard', 'Indian stock market', 'market sentiment']}
+        canonical="https://dailybias.in"
+      />
       {/* Status Bar */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -229,13 +236,46 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Risk Disclaimer */}
-        <div className="mt-8 p-4 bg-gray-100 rounded-lg">
-          <div className="text-sm text-gray-600 text-center">
-            <strong>Disclaimer:</strong> This tool is for educational purposes only and should not be considered as investment advice. 
-            Please consult with a qualified financial advisor before making any trading decisions. 
-            Past performance is not indicative of future results. 
-            <a href="/methodology" className="text-blue-600 hover:underline ml-1">Learn about our methodology</a>.
+        {/* Data & Update Policy */}
+        <Card className="mb-6">
+          <CardContent className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-700">
+              <div>
+                <div className="font-semibold text-gray-900">Data Sources</div>
+                <div className="text-xs">Exchange price feeds, sector aggregates, curated financial news</div>
+              </div>
+              <div>
+                <div className="font-semibold text-gray-900">Update Cadence</div>
+                <div className="text-xs">Intra-day during market hours; periodic outside hours; short-term caching</div>
+              </div>
+              <div>
+                <div className="font-semibold text-gray-900">Interpretation</div>
+                <div className="text-xs">Bias is a composite signal with risk-adjusted confidence; use with a plan</div>
+              </div>
+            </div>
+            <div className="text-xs text-blue-600 mt-3">
+              <a href="/disclosures" className="hover:underline">Full disclosures and data policy</a>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Enhanced Risk Disclaimer */}
+        <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="text-sm text-red-800 text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <AlertCircle className="h-5 w-5" />
+              <strong>Critical Warning</strong>
+            </div>
+            <div className="mb-3">
+              <strong>ALWAYS VERIFY:</strong> Never rely solely on this platform&apos;s signals. Always cross-check with your own research, 
+              trusted financial sources, and market analysis before making any trading decisions.
+            </div>
+            <div className="text-xs text-red-700">
+              This tool is for educational purposes only and should not be considered as investment advice. 
+              Please consult with a qualified financial advisor before making any trading decisions. 
+              Past performance is not indicative of future results. 
+              <a href="/methodology" className="text-blue-600 hover:underline ml-1">Learn about our methodology</a>.
+            </div>
           </div>
         </div>
       </main>
