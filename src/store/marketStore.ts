@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { MarketBias, UserSettings, KeyLevels, First15mData, NewsItem, SectorMove, StockInfo } from '@/types/market';
+import { MarketBias, UserSettings, KeyLevels, First15mData, NewsItem, SectorMove, StockInfo, Candles, PreviousDayData } from '@/types/market';
 import { MarketDataSource } from '@/adapters/MarketDataSource';
 import { MockAdapter } from '@/adapters/MockAdapter';
 import { LiveAdapter } from '@/adapters/LiveAdapter';
@@ -147,14 +147,26 @@ export const useMarketStore = create<MarketState & MarketActions>()(
         try {
           const { dataSource } = get();
           
-          // Fetch required data
-          const [dailyCandles, fourHourCandles, oneHourCandles, previousDayData, newsItems] = await Promise.all([
+          // Fetch required data with timeout
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Request timeout')), 30000)
+          );
+          
+          const dataPromise = Promise.all([
             dataSource.getIndexOHLC(index, '1D'),
             dataSource.getIndexOHLC(index, '4H'),
             dataSource.getIndexOHLC(index, '1H'),
             dataSource.getPreviousDayHL(index),
             dataSource.getNews(),
           ]);
+          
+          const [dailyCandles, fourHourCandles, oneHourCandles, previousDayData, newsItems] = 
+            await Promise.race([dataPromise, timeoutPromise]) as [Candles[], Candles[], Candles[], PreviousDayData, NewsItem[]];
+          
+          // Validate data
+          if (!dailyCandles || !Array.isArray(dailyCandles) || dailyCandles.length === 0) {
+            throw new Error(`No daily candles data for ${index}`);
+          }
           
           // Calculate bias using bias engine
           const { biasEngine } = await import('@/utils/biasEngine');
@@ -189,6 +201,10 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           }
         } catch (error) {
           console.error(`Failed to fetch bias for ${index}:`, error);
+          set({ 
+            error: `Failed to fetch ${index} bias: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            isLoading: false 
+          });
         }
       },
 

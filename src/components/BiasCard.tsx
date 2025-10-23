@@ -11,6 +11,18 @@ interface BiasCardProps {
 }
 
 export function BiasCard({ bias, className }: BiasCardProps) {
+  // Validate bias data
+  if (!bias || typeof bias !== 'object') {
+    return (
+      <Card className={`w-full ${className}`}>
+        <CardContent className="p-6 text-center text-gray-500">
+          <AlertTriangle className="h-8 w-8 mx-auto mb-2" />
+          <p>Invalid bias data</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const getBiasIcon = (biasType: string) => {
     switch (biasType) {
       case 'Bullish':

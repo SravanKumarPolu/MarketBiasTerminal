@@ -5,21 +5,28 @@ import { Candles, PreviousDayData, SectorMove, NewsItem, StockInfo } from '@/typ
 export class LiveAdapter extends BaseDataSource {
   private mockAdapter: MockAdapter;
   private useMockFallback: boolean = true;
+  private apiKey: string | null = null;
 
   constructor() {
     super('https://api.example.com'); // Replace with actual API endpoints
     this.mockAdapter = new MockAdapter();
+    
+    // Check for API key in environment variables
+    if (typeof window !== 'undefined') {
+      this.apiKey = process.env.NEXT_PUBLIC_API_KEY || null;
+    }
   }
 
   async getIndexOHLC(symbol: 'NIFTY' | 'BANKNIFTY', tf: '1D' | '4H' | '1H' | '15m'): Promise<Candles[]> {
-    if (this.useMockFallback) {
+    if (this.useMockFallback || !this.apiKey) {
       return this.mockAdapter.getIndexOHLC(symbol, tf);
     }
 
     try {
       // TODO: Replace with actual API endpoint
       // const url = `${this.baseUrl}/ohlc/${symbol}/${tf}`;
-      // return await this.fetchWithRetry<Candles[]>(url);
+      // const headers = this.apiKey ? { 'Authorization': `Bearer ${this.apiKey}` } : {};
+      // return await this.fetchWithRetry<Candles[]>(url, { headers });
       
       // For now, fallback to mock
       return this.mockAdapter.getIndexOHLC(symbol, tf);

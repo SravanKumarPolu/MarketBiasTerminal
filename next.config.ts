@@ -7,7 +7,9 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true
-  }
+  },
+  // Fix the lockfile warning by specifying the correct root
+  outputFileTracingRoot: '/Users/sravanpolu/Projects/MarketBiasTerminal'
 };
 
 export default nextConfig;
