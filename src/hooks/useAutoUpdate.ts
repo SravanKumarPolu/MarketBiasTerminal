@@ -16,6 +16,32 @@ export function useAutoUpdate() {
     lastChecked: null,
   });
 
+  const applyUpdate = useCallback(async () => {
+    try {
+      setUpdateInfo(prev => ({ ...prev, isUpdating: true }));
+      
+      // Get service worker registration
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (registration && registration.waiting) {
+        // Tell the waiting service worker to skip waiting
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        
+        // Listen for the controlling service worker to change
+        registration.addEventListener('controllerchange', () => {
+          // Reload the page to use the new service worker
+          window.location.reload();
+        });
+      } else {
+        // Force reload to get the latest version
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Failed to apply update:', error);
+      toast.error('Failed to apply update. Please refresh manually.');
+      setUpdateInfo(prev => ({ ...prev, isUpdating: false }));
+    }
+  }, []);
+
   const checkForUpdates = useCallback(async () => {
     try {
       // Check if service worker is supported
@@ -65,33 +91,7 @@ export function useAutoUpdate() {
     } catch (error) {
       console.error('Failed to check for updates:', error);
     }
-  }, []);
-
-  const applyUpdate = useCallback(async () => {
-    try {
-      setUpdateInfo(prev => ({ ...prev, isUpdating: true }));
-      
-      // Get service worker registration
-      const registration = await navigator.serviceWorker.getRegistration();
-      if (registration && registration.waiting) {
-        // Tell the waiting service worker to skip waiting
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        
-        // Listen for the controlling service worker to change
-        registration.addEventListener('controllerchange', () => {
-          // Reload the page to use the new service worker
-          window.location.reload();
-        });
-      } else {
-        // Force reload to get the latest version
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error('Failed to apply update:', error);
-      toast.error('Failed to apply update. Please refresh manually.');
-      setUpdateInfo(prev => ({ ...prev, isUpdating: false }));
-    }
-  }, []);
+  }, [applyUpdate]);
 
   const forceUpdate = useCallback(() => {
     // Clear all caches and reload

@@ -35,7 +35,7 @@ export function AutoUpdate({
     try {
       await applyUpdate();
       toast.success('Update applied successfully!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to apply update. Please refresh manually.');
     }
   };
