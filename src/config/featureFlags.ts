@@ -1,5 +1,6 @@
 // Feature Flags Configuration
 // This file controls which features are enabled/disabled
+import { debug } from '@/utils/debug';
 
 export const featureFlags = {
   // Data Source Features
@@ -126,7 +127,7 @@ export const getBiasConfig = () => {
 // Development helpers
 export const logFeatureFlags = () => {
   if (featureFlags.ENABLE_DEBUG_LOGGING) {
-    console.log('Feature Flags:', featureFlags);
+    debug.log('Feature Flags:', featureFlags);
   }
 };
 

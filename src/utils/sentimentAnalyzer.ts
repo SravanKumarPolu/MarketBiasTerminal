@@ -98,9 +98,9 @@ export class SentimentAnalyzer {
   }
 
   // Method to manually correct sentiment (for user feedback)
-  correctSentiment(text: string, correctSentiment: SentimentType): void {
+  correctSentiment(_text: string, _correctSentiment: SentimentType): void {
     // In a real implementation, this could store corrections for learning
-    console.log(`Sentiment correction: "${text}" -> ${correctSentiment}`);
+    // console.log(`Sentiment correction: "${text}" -> ${correctSentiment}`);
   }
 }
 

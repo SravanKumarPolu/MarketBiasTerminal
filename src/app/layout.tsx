@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AutoUpdate } from "@/components/AutoUpdate";
+import { ServiceWorkerProvider } from "@/components/ServiceWorkerProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,12 +90,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ErrorBoundary>
-          <Navigation />
-          {children}
-          <Footer />
-          <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
-          <Toaster />
+        <ServiceWorkerProvider>
+          <ErrorBoundary>
+            <Navigation />
+            {children}
+            <Footer />
+            <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
+            <Toaster />
           {/* Structured Data */}
           <script
             type="application/ld+json"
@@ -120,7 +122,8 @@ export default function RootLayout({
               })
             }}
           />
-        </ErrorBoundary>
+          </ErrorBoundary>
+        </ServiceWorkerProvider>
       </body>
     </html>
   );

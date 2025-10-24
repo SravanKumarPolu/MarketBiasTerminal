@@ -8,7 +8,9 @@ export function registerServiceWorker() {
           scope: '/',
         });
 
-        console.log('Service Worker registered successfully:', registration);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Service Worker registered successfully:', registration);
+        }
 
         // Handle updates
         registration.addEventListener('updatefound', () => {
@@ -17,7 +19,9 @@ export function registerServiceWorker() {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                 // New content is available, show update notification
-                console.log('New content available, please refresh.');
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('New content available, please refresh.');
+                }
                 
                 // Dispatch custom event for update notification
                 window.dispatchEvent(new CustomEvent('sw-update-available', {
@@ -30,7 +34,9 @@ export function registerServiceWorker() {
 
         // Handle controller change (when new service worker takes control)
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-          console.log('Service Worker controller changed');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Service Worker controller changed');
+          }
           // Optionally reload the page
           // window.location.reload();
         });

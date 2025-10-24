@@ -1,4 +1,5 @@
 import { useMarketStore } from '@/store/marketStore';
+import { debug } from '@/utils/debug';
 
 export class MarketScheduler {
   private intervals: Map<string, NodeJS.Timeout> = new Map();
@@ -33,7 +34,7 @@ export class MarketScheduler {
     this.scheduleMarketHours();
     this.schedulePostMarket();
     
-    console.log('Market scheduler started');
+    debug.log('Market scheduler started');
   }
 
   stop() {
@@ -45,7 +46,7 @@ export class MarketScheduler {
     });
     this.intervals.clear();
     
-    console.log('Market scheduler stopped');
+    debug.log('Market scheduler stopped');
   }
 
   pause() {
@@ -112,7 +113,7 @@ export class MarketScheduler {
   }
 
   private async refreshData(context: string) {
-    console.log(`Scheduled refresh: ${context}`);
+    debug.log(`Scheduled refresh: ${context}`);
     
     try {
       const { fetchMarketData } = useMarketStore.getState();
@@ -124,7 +125,7 @@ export class MarketScheduler {
 
   // Manual refresh methods
   async refreshNow() {
-    console.log('Manual refresh triggered');
+    debug.log('Manual refresh triggered');
     await this.refreshData('manual');
   }
 

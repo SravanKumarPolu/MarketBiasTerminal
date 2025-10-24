@@ -4,6 +4,7 @@ import { MarketBias, UserSettings, KeyLevels, First15mData, NewsItem, SectorMove
 import { MarketDataSource } from '@/adapters/MarketDataSource';
 import { MockAdapter } from '@/adapters/MockAdapter';
 import { LiveAdapter } from '@/adapters/LiveAdapter';
+import { debug } from '@/utils/debug';
 
 interface MarketState {
   // Data source
@@ -109,7 +110,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           await new Promise<void>(resolve => { timer = setTimeout(resolve, DEBOUNCE_MS); });
           set({ isLoading: true, error: null });
           try {
-          console.log('Starting market data fetch...');
+          debug.log('Starting market data fetch...');
           const { dataSource } = get();
           
           // Check if market is open
@@ -118,14 +119,14 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           const today = new Date().toISOString().split('T')[0];
           const isHoliday = holidays.includes(today);
           
-          console.log('Market status:', { isMarketOpen, isHoliday, today });
+          debug.log('Market status:', { isMarketOpen, isHoliday, today });
           set({ isMarketOpen, isHoliday });
           
           // Always fetch data, but show appropriate messages for market status
           // This allows users to see historical data and news even when market is closed
           
           // Fetch all data in parallel
-          console.log('Fetching bias and other data...');
+          debug.log('Fetching bias and other data...');
           await Promise.all([
             get().fetchBias('NIFTY'),
             get().fetchBias('BANKNIFTY'),
@@ -134,7 +135,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
             get().fetchWatchlist(),
           ]);
           
-          console.log('Market data fetch completed');
+          debug.log('Market data fetch completed');
           set({ lastUpdate: new Date().toISOString(), isLoading: false });
         } catch (error) {
           console.error('Market data fetch error:', error);
@@ -148,7 +149,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
 
       fetchBias: async (index: 'NIFTY' | 'BANKNIFTY') => {
         try {
-          console.log(`Fetching bias for ${index}...`);
+          debug.log(`Fetching bias for ${index}...`);
           const { dataSource } = get();
           
           // Fetch required data with timeout
@@ -167,7 +168,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           const [dailyCandles, fourHourCandles, oneHourCandles, previousDayData, newsItems] = 
             await Promise.race([dataPromise, timeoutPromise]) as [Candles[], Candles[], Candles[], PreviousDayData, NewsItem[]];
           
-          console.log(`${index} data fetched:`, {
+          debug.log(`${index} data fetched:`, {
             dailyCandles: dailyCandles?.length,
             fourHourCandles: fourHourCandles?.length,
             oneHourCandles: oneHourCandles?.length,
@@ -181,7 +182,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           }
           
           // Calculate bias using bias engine
-          console.log(`Calculating bias for ${index}...`);
+          debug.log(`Calculating bias for ${index}...`);
           const { biasEngine } = await import('@/utils/biasEngine');
           
           let bias;
@@ -194,7 +195,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
               previousDayData,
               newsItems
             );
-            console.log(`${index} bias calculated:`, bias);
+            debug.log(`${index} bias calculated:`, bias);
           } catch (biasError) {
             console.error(`Bias calculation failed for ${index}:`, biasError);
             // Create a fallback bias
@@ -207,7 +208,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
               rationale: ['Fallback bias due to calculation error'],
               primaryTrigger: 'System fallback'
             };
-            console.log(`${index} using fallback bias:`, bias);
+            debug.log(`${index} using fallback bias:`, bias);
           }
           
           // Calculate key levels
@@ -245,10 +246,10 @@ export const useMarketStore = create<MarketState & MarketActions>()(
           if (timer) clearTimeout(timer);
           await new Promise<void>(resolve => { timer = setTimeout(resolve, DEBOUNCE_MS); });
           try {
-          console.log('Fetching news...');
+          debug.log('Fetching news...');
           const { dataSource } = get();
           const newsItems = await dataSource.getNews();
-          console.log('News fetched:', newsItems.length);
+          debug.log('News fetched:', newsItems.length);
           
           // Apply sentiment analysis
           const { sentimentAnalyzer } = await import('@/utils/sentimentAnalyzer');
@@ -258,7 +259,7 @@ export const useMarketStore = create<MarketState & MarketActions>()(
             biasImpact: sentimentAnalyzer.hasBiasImpact(news.title),
           }));
           
-          console.log('News processed:', processedNews.length);
+          debug.log('News processed:', processedNews.length);
           set({ news: processedNews });
         } catch (error) {
           console.error('Failed to fetch news:', error);
@@ -279,10 +280,10 @@ export const useMarketStore = create<MarketState & MarketActions>()(
 
       fetchSectors: async () => {
         try {
-          console.log('Fetching sectors...');
+          debug.log('Fetching sectors...');
           const { dataSource } = get();
           const sectors = await dataSource.getSectorMoves();
-          console.log('Sectors fetched:', sectors.length);
+          debug.log('Sectors fetched:', sectors.length);
           set({ sectors });
         } catch (error) {
           console.error('Failed to fetch sectors:', error);
