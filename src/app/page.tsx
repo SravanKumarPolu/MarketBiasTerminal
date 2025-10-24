@@ -453,26 +453,31 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Regulatory & Due Diligence Warning */}
+        {/* Enhanced Due Diligence Warning */}
         <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg">
           <div className="text-sm text-red-800 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
               <AlertCircle className="h-5 w-5" />
-              <strong>Regulatory & Due Diligence Warning</strong>
+              <strong>Critical Due Diligence Requirements</strong>
             </div>
             <div className="mb-3">
-              <strong>NO REGULATORY OVERSIGHT:</strong> This platform is <strong>not registered with SEBI, SEC, or any financial regulatory authority</strong>. 
-              There is <strong>no regulatory oversight</strong> of our services. You must conduct your own due diligence.
+              <strong>ALWAYS CROSS-CHECK:</strong> Never rely solely on this platform&apos;s signals. Always cross-check with established data sources like:
+            </div>
+            <div className="mb-3 text-xs text-red-700">
+              • Official exchange data (NSE, BSE) • Established financial portals (Moneycontrol, Economic Times) • Your own technical analysis
             </div>
             <div className="mb-3">
-              <strong>ALWAYS VERIFY:</strong> Never rely solely on this platform&apos;s signals. Always cross-check with your own research, 
-              trusted financial sources, and market analysis before making any trading decisions.
+              <strong>TREAT AS ONE INPUT:</strong> Use this bias as <strong>one input among many</strong> — blend with your own analysis, fundamental research, and risk management.
+            </div>
+            <div className="mb-3">
+              <strong>UNDERSTAND THE METHODOLOGY:</strong> Review our <a href="/methodology" className="text-blue-600 hover:underline">detailed methodology</a> to understand what &quot;bias&quot; means and how it&apos;s calculated.
+            </div>
+            <div className="mb-3">
+              <strong>TRACK RECORD:</strong> Check our <a href="/performance" className="text-blue-600 hover:underline">historical performance</a> and accuracy data before making decisions.
             </div>
             <div className="text-xs text-red-700">
-              This tool is for educational purposes only and should not be considered as investment advice. 
-            Please consult with a qualified financial advisor before making any trading decisions. 
-            Past performance is not indicative of future results.
-              <a href="/disclosures" className="text-blue-600 hover:underline ml-1">Full regulatory disclosures</a>.
+              <strong>For Indian Markets (IST):</strong> This platform is optimized for Indian market hours (9:15 AM - 3:30 PM IST). 
+              Consider your timezone (Raichur, Karnataka) and market timing relevance.
             </div>
           </div>
         </div>

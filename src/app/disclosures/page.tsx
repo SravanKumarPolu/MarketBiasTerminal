@@ -295,39 +295,65 @@ export default function DisclosuresPage() {
           </CardContent>
         </Card>
 
-        {/* Verification Guidance */}
+        {/* Enhanced Due Diligence Guidance */}
         <Card className="mb-8 bg-yellow-50 border-yellow-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-yellow-800">
               <AlertTriangle className="h-5 w-5" />
-              How to Verify Signals
+              Critical Due Diligence Requirements
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-yellow-800">
+            <div className="space-y-4 text-sm text-yellow-800">
               <div>
-                <h4 className="font-semibold mb-2">Trusted Sources to Cross-Check</h4>
-                <ul className="space-y-1 list-disc ml-5">
-                  <li>Official exchange data and announcements</li>
-                  <li>Established financial news outlets (Reuters, Bloomberg, Economic Times)</li>
-                  <li>Independent technical analysis from certified analysts</li>
-                  <li>Fundamental analysis from research firms</li>
+                <strong>1. Always Cross-Check with Established Sources:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li><strong>Official Exchange Data:</strong> NSE, BSE official websites and data feeds</li>
+                  <li><strong>Established Financial Portals:</strong> Moneycontrol, Economic Times, Business Standard, Financial Express</li>
+                  <li><strong>Reputable Broker Research:</strong> Reports from established brokers and research firms</li>
+                  <li><strong>Government Data:</strong> RBI, SEBI, and other official economic announcements</li>
                 </ul>
               </div>
+              
               <div>
-                <h4 className="font-semibold mb-2">Verification Steps</h4>
-                <ul className="space-y-1 list-disc ml-5">
-                  <li>Check multiple timeframes (daily, weekly, monthly)</li>
-                  <li>Verify against fundamental factors (earnings, news, economic data)</li>
-                  <li>Compare with other technical indicators</li>
-                  <li>Consider market context and broader trends</li>
+                <strong>2. Treat Bias as One Input Among Many:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Blend with your own technical analysis and chart patterns</li>
+                  <li>Combine with fundamental analysis of companies and sectors</li>
+                  <li>Consider macroeconomic factors and global market conditions</li>
+                  <li>Apply proper risk management and position sizing</li>
                 </ul>
               </div>
-            </div>
-            <div className="mt-4 p-3 bg-yellow-100 rounded-lg">
-              <p className="text-sm font-semibold text-yellow-900">
-                Remember: No single source should be your only guide. Always combine multiple perspectives and your own analysis.
-              </p>
+              
+              <div>
+                <strong>3. Verify Historical Performance:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Check our <a href="/performance" className="text-blue-600 hover:underline">track record</a> and accuracy data</li>
+                  <li>Review backtesting results and methodology validation</li>
+                  <li>Understand the limitations and time periods covered</li>
+                  <li>Be wary if no historical performance data is available</li>
+                </ul>
+              </div>
+              
+              <div>
+                <strong>4. Understand the Methodology:</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Review our <a href="/methodology" className="text-blue-600 hover:underline">detailed methodology</a> page</li>
+                  <li>Understand what &quot;bias&quot; means in our context</li>
+                  <li>Know how the calculation is derived and weighted</li>
+                  <li>Understand the limitations and assumptions</li>
+                </ul>
+              </div>
+              
+              <div>
+                <strong>5. Time Zone and Market Relevance (For Indian Markets):</strong>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Platform optimized for IST (9:15 AM - 3:30 PM market hours)</li>
+                  <li>Consider your location (Raichur, Karnataka) and market timing</li>
+                  <li>Evaluate relevance for your specific trading style and time availability</li>
+                  <li>Understand pre-market and post-market data limitations</li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>
