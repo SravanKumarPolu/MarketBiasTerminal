@@ -7,6 +7,8 @@ import { LevelsPanel } from '@/components/LevelsPanel';
 import { First15mBox } from '@/components/First15mBox';
 import { SectorHeatmap } from '@/components/SectorHeatmap';
 import { NewsList } from '@/components/NewsList';
+import { SkeletonCard, SkeletonLevels, SkeletonSector } from '@/components/SkeletonCard';
+import { HeroSection } from '@/components/HeroSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, Clock, AlertCircle } from 'lucide-react';
@@ -59,21 +61,28 @@ export default function Dashboard() {
         keywords={['NIFTY analysis', 'BANKNIFTY analysis', 'market bias', 'trading dashboard', 'Indian stock market', 'market sentiment']}
         canonical="https://dailybias.in"
       />
+      
+      {/* Hero Section */}
+      <HeroSection marketStatus={marketStatus} isMarketOpen={isMarketOpen} />
+      
       {/* Status Bar */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b" role="status" aria-live="polite" aria-atomic="true">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-4">
               {/* Market Status */}
-              <div className="flex items-center space-x-2">
-                <div className={`w-2 h-2 rounded-full ${isMarketOpen ? 'bg-green-500' : 'bg-red-500'}`} />
+              <div className="flex items-center space-x-2" aria-label={`Market status: ${marketStatus.message}`}>
+                <div 
+                  className={`w-2 h-2 rounded-full ${isMarketOpen ? 'bg-green-500' : 'bg-red-500'}`}
+                  aria-hidden="true"
+                />
                 <span className="text-sm text-gray-600">{marketStatus.message}</span>
               </div>
               
               {/* Last Update */}
-              <div className="flex items-center space-x-1 text-sm text-gray-600">
-                <Clock className="h-4 w-4" />
-                <span>{formatLastUpdate(lastUpdate)}</span>
+              <div className="flex items-center space-x-1 text-sm text-gray-600" aria-label={`Last updated: ${formatLastUpdate(lastUpdate)}`}>
+                <Clock className="h-4 w-4" aria-hidden="true" />
+                <time dateTime={lastUpdate || undefined}>{formatLastUpdate(lastUpdate)}</time>
               </div>
             </div>
             
@@ -83,8 +92,9 @@ export default function Dashboard() {
               size="sm"
               onClick={handleRefresh}
               disabled={isLoading}
+              aria-label={isLoading ? 'Refreshing data' : 'Refresh market data'}
             >
-              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} aria-hidden="true" />
               Refresh
             </Button>
           </div>
@@ -140,49 +150,53 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-6">
             {/* Bias Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {niftyBias ? (
+              {isLoading && !niftyBias ? (
+                <SkeletonCard />
+              ) : niftyBias ? (
                 <BiasCard bias={niftyBias} />
               ) : (
-                <div className="w-full">
-                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
-                    <div className="text-sm">NIFTY Bias - Loading...</div>
-                    <div className="text-xs mt-1">Fetching market data</div>
-                  </div>
-                </div>
+                <Card className="w-full">
+                  <CardContent className="p-6 text-center text-gray-500">
+                    <div className="text-sm">NIFTY Bias - No data available</div>
+                  </CardContent>
+                </Card>
               )}
-              {bankNiftyBias ? (
+              {isLoading && !bankNiftyBias ? (
+                <SkeletonCard />
+              ) : bankNiftyBias ? (
                 <BiasCard bias={bankNiftyBias} />
               ) : (
-                <div className="w-full">
-                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
-                    <div className="text-sm">BANKNIFTY Bias - Loading...</div>
-                    <div className="text-xs mt-1">Fetching market data</div>
-                  </div>
-                </div>
+                <Card className="w-full">
+                  <CardContent className="p-6 text-center text-gray-500">
+                    <div className="text-sm">BANKNIFTY Bias - No data available</div>
+                  </CardContent>
+                </Card>
               )}
             </div>
 
             {/* Levels Panels */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {keyLevels.nifty ? (
+              {isLoading && !keyLevels.nifty ? (
+                <SkeletonLevels />
+              ) : keyLevels.nifty ? (
                 <LevelsPanel levels={keyLevels.nifty} index="NIFTY" />
               ) : (
-                <div className="w-full">
-                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
-                    <div className="text-sm">NIFTY Levels - Loading...</div>
-                    <div className="text-xs mt-1">Calculating key levels</div>
-                  </div>
-                </div>
+                <Card className="w-full">
+                  <CardContent className="p-6 text-center text-gray-500">
+                    <div className="text-sm">NIFTY Levels - No data available</div>
+                  </CardContent>
+                </Card>
               )}
-              {keyLevels.bankNifty ? (
+              {isLoading && !keyLevels.bankNifty ? (
+                <SkeletonLevels />
+              ) : keyLevels.bankNifty ? (
                 <LevelsPanel levels={keyLevels.bankNifty} index="BANKNIFTY" />
               ) : (
-                <div className="w-full">
-                  <div className="bg-white rounded-lg border p-6 text-center text-gray-500">
-                    <div className="text-sm">BANKNIFTY Levels - Loading...</div>
-                    <div className="text-xs mt-1">Calculating key levels</div>
-                  </div>
-                </div>
+                <Card className="w-full">
+                  <CardContent className="p-6 text-center text-gray-500">
+                    <div className="text-sm">BANKNIFTY Levels - No data available</div>
+                  </CardContent>
+                </Card>
               )}
             </div>
 
@@ -196,7 +210,11 @@ export default function Dashboard() {
           {/* Right Column - Sectors and News */}
           <div className="space-y-6">
             {/* Sector Heatmap */}
-            <SectorHeatmap sectors={sectors} />
+            {isLoading && sectors.length === 0 ? (
+              <SkeletonSector />
+            ) : (
+              <SectorHeatmap sectors={sectors} />
+            )}
             
             {/* News List */}
             <NewsList news={news} />

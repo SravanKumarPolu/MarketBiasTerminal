@@ -77,13 +77,21 @@ export function BiasCard({ bias, className }: BiasCardProps) {
   };
 
   return (
-    <Card className={`w-full ${className}`}>
-      <CardHeader className="pb-3">
+    <Card 
+      className={`w-full hover:shadow-lg transition-shadow duration-300 ${className}`} 
+      role="region" 
+      aria-label={`${bias.index} market bias analysis`}
+    >
+      <CardHeader className="pb-3 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">{bias.index}</CardTitle>
-          <div className="flex items-center gap-2">
-            {getBiasIcon(bias.bias)}
-            <Badge className={`${getBiasColor(bias.bias)} font-medium`}>
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <div className="p-1.5 rounded-lg bg-blue-50">
+              {getBiasIcon(bias.bias)}
+            </div>
+            <span>{bias.index}</span>
+          </CardTitle>
+          <div className="flex items-center gap-2" role="status" aria-label={`Bias: ${bias.bias}`}>
+            <Badge className={`${getBiasColor(bias.bias)} font-medium text-sm px-3 py-1`}>
               {bias.bias}
             </Badge>
           </div>
@@ -91,20 +99,26 @@ export function BiasCard({ bias, className }: BiasCardProps) {
       </CardHeader>
       
       <CardContent className="space-y-4">
-        {/* Score and Confidence */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <div className="text-2xl font-bold">
-              {isNaN(bias.score) || !isFinite(bias.score) ? '0' : (bias.score > 0 ? '+' : '') + bias.score}
+        {/* Score and Confidence - Enhanced Visual Design */}
+        <div className="flex items-center justify-between p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="text-3xl font-bold text-gray-900" aria-label={`Bias score: ${bias.score}`}>
+                {isNaN(bias.score) || !isFinite(bias.score) ? '0' : (bias.score > 0 ? '+' : '') + bias.score}
+              </div>
+              <span className="text-sm font-medium text-gray-600">points</span>
             </div>
-            <div className="text-sm text-gray-600">Bias Score</div>
+            <div className="text-sm font-medium text-gray-700">Bias Score</div>
           </div>
           
-          <div className="space-y-1 text-right">
-            <div className="text-lg font-semibold">
+          <div className="text-center space-y-2">
+            <div 
+              className="text-2xl font-bold text-blue-700" 
+              aria-label={`Confidence level: ${bias.confidence}%`}
+            >
               {isNaN(bias.confidence) || !isFinite(bias.confidence) ? '0' : bias.confidence}%
             </div>
-            <div className="text-sm text-gray-600">Confidence</div>
+            <div className="text-sm font-medium text-gray-700">Confidence</div>
           </div>
         </div>
 
@@ -114,7 +128,7 @@ export function BiasCard({ bias, className }: BiasCardProps) {
             <span>0%</span>
             <span>100%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2" role="progressbar" aria-valuenow={bias.confidence} aria-valuemin={0} aria-valuemax={100} aria-label={`Confidence level: ${bias.confidence}%`}>
             <div 
               className={`h-2 rounded-full ${getConfidenceColor(bias.confidence)} transition-all duration-300`}
               style={{ width: `${Math.min(100, Math.max(0, isNaN(bias.confidence) || !isFinite(bias.confidence) ? 0 : bias.confidence))}%` }}

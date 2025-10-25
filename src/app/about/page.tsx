@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Navigation } from '@/components/Navigation';
 import { 
   Target, 
   Shield, 
@@ -20,7 +19,6 @@ import {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}

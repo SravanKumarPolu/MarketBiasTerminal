@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AutoUpdate } from "@/components/AutoUpdate";
 import { ServiceWorkerProvider } from "@/components/ServiceWorkerProvider";
+import { MobileOnboarding } from "@/components/MobileOnboarding";
+import { KeyboardShortcuts, ShortcutsHelp } from "@/components/KeyboardShortcuts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -92,9 +94,12 @@ export default function RootLayout({
       >
         <ServiceWorkerProvider>
           <ErrorBoundary>
+            <KeyboardShortcuts />
             <Navigation />
             {children}
             <Footer />
+            <MobileOnboarding />
+            <ShortcutsHelp />
             <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
             <Toaster />
           {/* Structured Data */}

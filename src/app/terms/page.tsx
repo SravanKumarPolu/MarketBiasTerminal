@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Navigation } from '@/components/Navigation';
 import { 
   Shield, 
   AlertTriangle, 
@@ -15,7 +14,6 @@ import {
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}

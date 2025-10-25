@@ -118,5 +118,136 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
+  
+  /* Improve focus visibility for accessibility */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-blue-600;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Ensure readable text sizes */
+  @media (max-width: 640px) {
+    body {
+      font-size: 14px;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
+}
+
+/* Custom animations for improved UX */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Ensure sufficient color contrast */
+.text-gray-600 {
+  color: #4b5563; /* Passes WCAG AA */
+}
+
+.text-gray-700 {
+  color: #374151; /* Passes WCAG AA */
+}
+
+.text-gray-800 {
+  color: #1f2937; /* Passes WCAG AA */
+}
+
+/* Focus styles for better accessibility */
+button[aria-expanded="true"] {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Button text visibility improvements */
+button.bg-white {
+  color: #1e40af !important; /* blue-700 */
+  font-weight: 600;
+}
+
+button.bg-white:hover {
+  background-color: #eff6ff !important; /* blue-50 */
+  color: #1e40af !important; /* blue-700 */
+}
+
+/* Ensure button text is visible on white background */
+.bg-white.text-blue-700,
+.bg-white .text-blue-700 {
+  color: #1e40af !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure outline button text is visible */
+.border-white.text-white {
+  border-width: 2px !important;
+  border-color: white !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 600 !important;
+}
+
+.border-white.text-white:hover {
+  background-color: white !important;
+  color: #1e40af !important; /* blue-700 */
+  text-shadow: none;
 }
