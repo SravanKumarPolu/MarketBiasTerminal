@@ -251,3 +251,163 @@ button.bg-white:hover {
   color: #1e40af !important; /* blue-700 */
   text-shadow: none;
 }
+
+/* Line clamp utilities for text overflow */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+/* Ensure proper text wrapping and overflow handling */
+.break-words {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Container overflow handling */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Flex container overflow handling */
+.flex-1 {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+/* Comprehensive overflow prevention utilities */
+.overflow-prevent {
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-overflow-clip {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+/* Flex container overflow prevention */
+.flex-overflow-safe {
+  min-width: 0;
+  flex: 1 1 0%;
+  overflow: hidden;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
+/* Grid container overflow prevention */
+.grid-overflow-safe {
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Card overflow prevention */
+.card-overflow-safe {
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Responsive text sizing */
+.text-responsive {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  line-height: 1.5;
+}
+
+/* Container max-width constraints */
+.container-safe {
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  .mobile-overflow-safe {
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .mobile-text-small {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+  
+  .mobile-grid-single {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .tablet-overflow-safe {
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast-safe {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe {
+    transition: none;
+    animation: none;
+  }
+}

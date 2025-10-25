@@ -151,24 +151,24 @@ export function ChartComparison({ niftyData, bankNiftyData, className }: ChartCo
         
         {/* Correlation Analysis */}
         {correlation && (
-          <div className="flex items-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-blue-600" />
-              <span className="font-medium">Correlation:</span>
-              <Badge variant={Math.abs(parseFloat(correlation.correlation)) > 0.7 ? 'default' : 'secondary'}>
+          <div className="flex items-center gap-2 text-sm flex-wrap">
+            <div className="flex items-center gap-2 min-w-0">
+              <Target className="h-4 w-4 text-blue-600 flex-shrink-0" />
+              <span className="font-medium truncate">Correlation:</span>
+              <Badge variant={Math.abs(parseFloat(correlation.correlation)) > 0.7 ? 'default' : 'secondary'} className="flex-shrink-0">
                 {correlation.correlation}
               </Badge>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium">Strength:</span>
-              <Badge variant={correlation.strength === 'Strong' ? 'default' : 'secondary'}>
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="font-medium truncate">Strength:</span>
+              <Badge variant={correlation.strength === 'Strong' ? 'default' : 'secondary'} className="flex-shrink-0">
                 {correlation.strength}
               </Badge>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium">Direction:</span>
-              <Badge variant={correlation.direction === 'Positive' ? 'default' : 'destructive'}>
-                {correlation.direction}
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="font-medium truncate">Direction:</span>
+              <Badge variant={correlation.direction === 'Positive' ? 'default' : 'destructive'} className="flex-shrink-0">
+                <span className="truncate">{correlation.direction}</span>
               </Badge>
             </div>
           </div>
@@ -184,24 +184,28 @@ export function ChartComparison({ niftyData, bankNiftyData, className }: ChartCo
           </TabsList>
           
           <TabsContent value="side-by-side" className="mt-4">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-              <EnhancedChart
-                data={niftyData}
-                title="NIFTY 50 Performance"
-                type="line"
-                height={300}
-                onDataPointClick={(point) => handleDataPointClick(point, 'NIFTY')}
-                showAnalysis={true}
-              />
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 overflow-hidden">
+              <div className="min-w-0">
+                <EnhancedChart
+                  data={niftyData}
+                  title="NIFTY 50 Performance"
+                  type="line"
+                  height={300}
+                  onDataPointClick={(point) => handleDataPointClick(point, 'NIFTY')}
+                  showAnalysis={true}
+                />
+              </div>
               
-              <EnhancedChart
-                data={bankNiftyData}
-                title="BANK NIFTY Performance"
-                type="line"
-                height={300}
-                onDataPointClick={(point) => handleDataPointClick(point, 'BANKNIFTY')}
-                showAnalysis={true}
-              />
+              <div className="min-w-0">
+                <EnhancedChart
+                  data={bankNiftyData}
+                  title="BANK NIFTY Performance"
+                  type="line"
+                  height={300}
+                  onDataPointClick={(point) => handleDataPointClick(point, 'BANKNIFTY')}
+                  showAnalysis={true}
+                />
+              </div>
             </div>
           </TabsContent>
           

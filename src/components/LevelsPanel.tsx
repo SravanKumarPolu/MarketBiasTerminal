@@ -66,11 +66,11 @@ export function LevelsPanel({ levels, index, className }: LevelsPanelProps) {
   ];
 
   return (
-    <Card className={`w-full ${className}`}>
+    <Card className={`w-full card-overflow-safe ${className}`}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <Target className="h-5 w-5" />
-          Key Levels - {index}
+        <CardTitle className="text-lg font-semibold flex items-center gap-2 min-w-0">
+          <Target className="h-5 w-5 flex-shrink-0" />
+          <span className="truncate">Key Levels - {index}</span>
         </CardTitle>
       </CardHeader>
       
@@ -90,9 +90,11 @@ export function LevelsPanel({ levels, index, className }: LevelsPanelProps) {
                   <Copy className="h-3 w-3" />
                 </Button>
               </div>
-              <div className={`px-3 py-2 rounded-lg border text-center ${getLevelTypeColor(item.type)}`}>
-                <div className="font-semibold text-lg">{formatLevel(item.value)}</div>
-                <div className="text-xs opacity-75">{item.label}</div>
+              <div className={`px-3 py-2 rounded-lg border text-center overflow-hidden ${getLevelTypeColor(item.type)}`}>
+                <div className="font-semibold text-lg break-words">{formatLevel(item.value)}</div>
+                <div className="text-xs opacity-75 break-words">
+                  <div className="line-clamp-2">{item.label}</div>
+                </div>
               </div>
             </div>
           ))}
@@ -110,10 +112,10 @@ export function LevelsPanel({ levels, index, className }: LevelsPanelProps) {
                 key={index}
                 variant="outline"
                 size="sm"
-                className="h-8 px-3 text-xs"
+                className="h-8 px-3 text-xs min-w-0 flex-shrink-0"
                 onClick={() => copyToClipboard(level.toString())}
               >
-                {formatLevel(level)}
+                <span className="truncate">{formatLevel(level)}</span>
               </Button>
             ))}
           </div>

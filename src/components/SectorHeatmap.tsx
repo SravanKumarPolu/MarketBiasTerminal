@@ -53,22 +53,22 @@ export function SectorHeatmap({ sectors, className }: SectorHeatmapProps) {
   const sortedSectors = [...sectors].sort((a, b) => b.changePct - a.changePct);
 
   return (
-    <Card className={`w-full ${className}`}>
+    <Card className={`w-full card-overflow-safe ${className}`}>
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold">Sector Performance</CardTitle>
       </CardHeader>
       
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 grid-overflow-safe">
           {sortedSectors.map((sector) => (
             <div
               key={sector.sector}
-              className="relative group cursor-pointer"
+              className="relative group cursor-pointer min-w-0"
             >
-              <div className="p-3 rounded-lg border bg-white hover:shadow-md transition-shadow">
+              <div className="p-3 rounded-lg border bg-white hover:shadow-md transition-shadow overflow-hidden card-overflow-safe">
                 {/* Sector Name */}
-                <div className="text-sm font-medium text-gray-800 mb-2 truncate">
-                  {sector.sector}
+                <div className="text-sm font-medium text-gray-800 mb-2 break-words">
+                  <div className="line-clamp-2">{sector.sector}</div>
                 </div>
                 
                 {/* Change Percentage */}
@@ -93,8 +93,8 @@ export function SectorHeatmap({ sectors, className }: SectorHeatmapProps) {
               </div>
               
               {/* Hover Tooltip */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                {sector.sector}: {formatChange(sector.changePct)}
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 max-w-48 break-words">
+                <div className="line-clamp-2">{sector.sector}: {formatChange(sector.changePct)}</div>
               </div>
             </div>
           ))}

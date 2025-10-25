@@ -78,21 +78,21 @@ export function BiasCard({ bias, className }: BiasCardProps) {
 
   return (
     <Card 
-      className={`w-full hover:shadow-lg transition-shadow duration-300 ${className}`} 
+      className={`w-full hover:shadow-lg transition-shadow duration-300 card-overflow-safe ${className}`} 
       role="region" 
       aria-label={`${bias.index} market bias analysis`}
     >
       <CardHeader className="pb-3 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-blue-50">
+        <div className="flex items-center justify-between min-w-0 overflow-hidden">
+          <CardTitle className="text-lg font-semibold flex items-center gap-2 min-w-0 flex-1">
+            <div className="p-1.5 rounded-lg bg-blue-50 flex-shrink-0">
               {getBiasIcon(bias.bias)}
             </div>
-            <span>{bias.index}</span>
+            <span className="truncate">{bias.index}</span>
           </CardTitle>
-          <div className="flex items-center gap-2" role="status" aria-label={`Bias: ${bias.bias}`}>
-            <Badge className={`${getBiasColor(bias.bias)} font-medium text-sm px-3 py-1`}>
-              {bias.bias}
+          <div className="flex items-center gap-2 flex-shrink-0" role="status" aria-label={`Bias: ${bias.bias}`}>
+            <Badge className={`${getBiasColor(bias.bias)} font-medium text-sm px-3 py-1 flex-shrink-0`}>
+              <span className="truncate">{bias.bias}</span>
             </Badge>
           </div>
         </div>
@@ -142,8 +142,8 @@ export function BiasCard({ bias, className }: BiasCardProps) {
             <div className="text-sm font-medium text-gray-700">Why {bias.bias}?</div>
             <div className="space-y-1">
               {bias.rationale.slice(0, 3).map((reason, index) => (
-                <div key={index} className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-                  {reason}
+                <div key={index} className="text-xs text-gray-600 bg-gray-50 p-2 rounded break-words overflow-hidden">
+                  <div className="line-clamp-2">{reason}</div>
                 </div>
               ))}
             </div>
@@ -197,7 +197,9 @@ export function BiasCard({ bias, className }: BiasCardProps) {
         {bias.primaryTrigger && (
           <div className="bg-blue-50 p-3 rounded-lg">
             <div className="text-sm font-medium text-blue-900 mb-1">Primary Trigger</div>
-            <div className="text-xs text-blue-800">{bias.primaryTrigger}</div>
+            <div className="text-xs text-blue-800 break-words overflow-hidden">
+              <div className="line-clamp-3">{bias.primaryTrigger}</div>
+            </div>
           </div>
         )}
 
@@ -205,9 +207,11 @@ export function BiasCard({ bias, className }: BiasCardProps) {
         <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
           <div className="flex items-start gap-2">
             <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-            <div className="text-xs text-yellow-800">
-              <strong>Critical:</strong> This bias is ONE INPUT among many. Always cross-check with official exchange data (NSE/BSE), established financial portals, and your own analysis. 
-              <a href="/disclosures" className="text-blue-600 hover:underline ml-1">See full due diligence requirements</a>.
+            <div className="text-xs text-yellow-800 break-words overflow-hidden">
+              <div className="line-clamp-4">
+                <strong>Critical:</strong> This bias is ONE INPUT among many. Always cross-check with official exchange data (NSE/BSE), established financial portals, and your own analysis. 
+                <a href="/disclosures" className="text-blue-600 hover:underline ml-1">See full due diligence requirements</a>.
+              </div>
             </div>
           </div>
         </div>

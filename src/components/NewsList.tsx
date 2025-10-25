@@ -93,7 +93,7 @@ export function NewsList({ news, className }: NewsListProps) {
   }
 
   return (
-    <Card className={`w-full ${className}`}>
+    <Card className={`w-full card-overflow-safe ${className}`}>
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold">Market News</CardTitle>
       </CardHeader>
@@ -102,14 +102,14 @@ export function NewsList({ news, className }: NewsListProps) {
         {news.slice(0, 10).map((item, index) => (
           <div
             key={index}
-            className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+            className="p-4 border rounded-lg hover:shadow-md transition-shadow overflow-hidden card-overflow-safe"
           >
             <div className="space-y-3">
               {/* Header */}
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 line-clamp-2">
-                    {item.title}
+                  <h3 className="font-medium text-gray-900 break-words">
+                    <div className="line-clamp-2">{item.title}</div>
                   </h3>
                 </div>
                 
@@ -126,12 +126,12 @@ export function NewsList({ news, className }: NewsListProps) {
               </div>
 
               {/* Metadata */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Clock className="h-3 w-3" />
-                  <span>{formatTimeAgo(item.pubDate)}</span>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2 text-sm text-gray-600 min-w-0 flex-1">
+                  <Clock className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">{formatTimeAgo(item.pubDate)}</span>
                   <span>•</span>
-                  <span>{item.source}</span>
+                  <span className="truncate">{item.source}</span>
                 </div>
                 
                 <div className="flex items-center gap-2">

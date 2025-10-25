@@ -116,12 +116,12 @@ export function First15mBox({ data, index, className }: First15mBoxProps) {
   }
 
   return (
-    <Card className={`w-full ${className}`}>
+    <Card className={`w-full card-overflow-safe ${className}`}>
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            <Clock className="h-5 w-5" />
-            First 15m Range - {index}
+        <div className="flex items-center justify-between min-w-0 overflow-hidden">
+          <CardTitle className="text-lg font-semibold flex items-center gap-2 min-w-0 flex-1">
+            <Clock className="h-5 w-5 flex-shrink-0" />
+            <span className="truncate">First 15m Range - {index}</span>
           </CardTitle>
           <Badge variant={data.isComplete ? 'default' : 'secondary'}>
             {data.isComplete ? 'Complete' : 'Live'}
@@ -132,24 +132,24 @@ export function First15mBox({ data, index, className }: First15mBoxProps) {
       <CardContent className="space-y-4">
         {/* Range Display */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-red-600">{formatPrice(data.low)}</div>
+          <div className="text-center overflow-hidden">
+            <div className="text-2xl font-bold text-red-600 break-words">{formatPrice(data.low)}</div>
             <div className="text-sm text-gray-600 flex items-center justify-center gap-1">
-              <TrendingDown className="h-3 w-3" />
-              Low
+              <TrendingDown className="h-3 w-3 flex-shrink-0" />
+              <span className="truncate">Low</span>
             </div>
           </div>
           
-          <div className="text-center">
-            <div className="text-lg font-semibold text-gray-800">{formatPrice(getRangeSize())}</div>
-            <div className="text-sm text-gray-600">Range Size</div>
+          <div className="text-center overflow-hidden">
+            <div className="text-lg font-semibold text-gray-800 break-words">{formatPrice(getRangeSize())}</div>
+            <div className="text-sm text-gray-600 truncate">Range Size</div>
           </div>
           
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{formatPrice(data.high)}</div>
+          <div className="text-center overflow-hidden">
+            <div className="text-2xl font-bold text-green-600 break-words">{formatPrice(data.high)}</div>
             <div className="text-sm text-gray-600 flex items-center justify-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              High
+              <TrendingUp className="h-3 w-3 flex-shrink-0" />
+              <span className="truncate">High</span>
             </div>
           </div>
         </div>
@@ -162,19 +162,19 @@ export function First15mBox({ data, index, className }: First15mBoxProps) {
               <div className="w-full h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 opacity-20" />
             </div>
             <div className="absolute inset-0 flex items-center justify-between px-2">
-              <span className="text-xs font-medium text-red-700">{formatPrice(data.low)}</span>
-              <span className="text-xs font-medium text-green-700">{formatPrice(data.high)}</span>
+              <span className="text-xs font-medium text-red-700 truncate">{formatPrice(data.low)}</span>
+              <span className="text-xs font-medium text-green-700 truncate">{formatPrice(data.high)}</span>
             </div>
           </div>
         </div>
 
         {/* Trading Guidelines */}
-        <div className="bg-blue-50 p-3 rounded-lg">
+        <div className="bg-blue-50 p-3 rounded-lg overflow-hidden">
           <div className="text-sm font-medium text-blue-900 mb-2">Trading Guidelines</div>
           <div className="text-xs text-blue-800 space-y-1">
-            <div>• Break above high + retest = Long opportunity</div>
-            <div>• Break below low + retest = Short opportunity</div>
-            <div>• Stay within range = Wait for breakout</div>
+            <div className="break-words">• Break above high + retest = Long opportunity</div>
+            <div className="break-words">• Break below low + retest = Short opportunity</div>
+            <div className="break-words">• Stay within range = Wait for breakout</div>
           </div>
         </div>
 

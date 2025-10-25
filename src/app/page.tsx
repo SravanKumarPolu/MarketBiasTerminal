@@ -6,14 +6,11 @@ import { BiasCard } from '@/components/BiasCard';
 import { LevelsPanel } from '@/components/LevelsPanel';
 import { First15mBox } from '@/components/First15mBox';
 import { SectorHeatmap } from '@/components/SectorHeatmap';
-import { NewsList } from '@/components/NewsList';
 import { SkeletonCard, SkeletonLevels, SkeletonSector } from '@/components/SkeletonCard';
 import { HeroSection } from '@/components/HeroSection';
-import { EnhancedChart } from '@/components/EnhancedChart';
-import { ChartComparison } from '@/components/ChartComparison';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RefreshCw, Clock, AlertCircle, ArrowRight } from 'lucide-react';
+import { RefreshCw, Clock, AlertCircle, ArrowRight, BarChart3, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 import { marketScheduler } from '@/utils/scheduler';
 import { SEOHead } from '@/components/SEOHead';
@@ -27,7 +24,6 @@ export default function Dashboard() {
     bankNiftyBias,
     keyLevels,
     first15m,
-    news,
     sectors,
     isMarketOpen,
     isHoliday,
@@ -195,12 +191,12 @@ export default function Dashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-full overflow-hidden mobile-grid-single">
           {/* Left Column - Bias Cards and Levels */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 min-w-0 w-full max-w-full overflow-hidden mobile-overflow-safe">
             {/* Bias Cards */}
             <div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-full overflow-hidden mobile-grid-single"
               role="region"
               aria-label="Market bias analysis"
               aria-live="polite"
@@ -232,7 +228,7 @@ export default function Dashboard() {
 
             {/* Levels Panels */}
             <div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-full overflow-hidden mobile-grid-single"
               role="region"
               aria-label="Key market levels"
               data-onboarding="key-levels"
@@ -263,7 +259,7 @@ export default function Dashboard() {
 
             {/* First 15m Boxes */}
             <div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-full overflow-hidden mobile-grid-single"
               role="region"
               aria-label="First 15 minutes analysis"
               data-onboarding="first-15m"
@@ -274,7 +270,7 @@ export default function Dashboard() {
           </div>
 
           {/* Right Column - Sectors and News */}
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0 w-full max-w-full overflow-hidden mobile-overflow-safe">
             {/* Sector Heatmap */}
             <div role="region" aria-label="Sector performance analysis" data-onboarding="sector-heatmap">
               {isLoading && sectors.length === 0 ? (
@@ -284,81 +280,37 @@ export default function Dashboard() {
               )}
             </div>
             
-            {/* Enhanced Charts Section */}
-            <div className="space-y-6 mb-6" data-onboarding="charts-section">
-              {/* Individual Charts */}
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                <EnhancedChart
-                  data={[
-                    { timestamp: '2024-01-01T09:00:00Z', value: 18500, label: 'NIFTY Open', change: 0 },
-                    { timestamp: '2024-01-01T10:00:00Z', value: 18650, label: 'NIFTY 10AM', change: 0.81 },
-                    { timestamp: '2024-01-01T11:00:00Z', value: 18720, label: 'NIFTY 11AM', change: 1.19 },
-                    { timestamp: '2024-01-01T12:00:00Z', value: 18680, label: 'NIFTY 12PM', change: 0.97 },
-                    { timestamp: '2024-01-01T13:00:00Z', value: 18750, label: 'NIFTY 1PM', change: 1.35 },
-                    { timestamp: '2024-01-01T14:00:00Z', value: 18800, label: 'NIFTY 2PM', change: 1.62 },
-                    { timestamp: '2024-01-01T15:00:00Z', value: 18790, label: 'NIFTY 3PM', change: 1.57 },
-                    { timestamp: '2024-01-01T15:30:00Z', value: 18820, label: 'NIFTY Close', change: 1.73 },
-                  ]}
-                  title="NIFTY 50 Intraday Performance"
-                  type="line"
-                  height={300}
-                  onDataPointClick={(point) => {
-                    console.log('Clicked NIFTY data point:', point);
-                    trackInteraction('chart_click', 'nifty_chart', { value: point.value, timestamp: point.timestamp });
-                  }}
-                  showAnalysis={true}
-                />
-                
-                <EnhancedChart
-                  data={[
-                    { timestamp: '2024-01-01T09:00:00Z', value: 42000, label: 'BANKNIFTY Open', change: 0 },
-                    { timestamp: '2024-01-01T10:00:00Z', value: 42500, label: 'BANKNIFTY 10AM', change: 1.19 },
-                    { timestamp: '2024-01-01T11:00:00Z', value: 42800, label: 'BANKNIFTY 11AM', change: 1.90 },
-                    { timestamp: '2024-01-01T12:00:00Z', value: 42650, label: 'BANKNIFTY 12PM', change: 1.55 },
-                    { timestamp: '2024-01-01T13:00:00Z', value: 42900, label: 'BANKNIFTY 1PM', change: 2.14 },
-                    { timestamp: '2024-01-01T14:00:00Z', value: 43100, label: 'BANKNIFTY 2PM', change: 2.62 },
-                    { timestamp: '2024-01-01T15:00:00Z', value: 43050, label: 'BANKNIFTY 3PM', change: 2.50 },
-                    { timestamp: '2024-01-01T15:30:00Z', value: 43150, label: 'BANKNIFTY Close', change: 2.74 },
-                  ]}
-                  title="BANK NIFTY Intraday Performance"
-                  type="area"
-                  height={300}
-                  onDataPointClick={(point) => {
-                    console.log('Clicked BANKNIFTY data point:', point);
-                    trackInteraction('chart_click', 'banknifty_chart', { value: point.value, timestamp: point.timestamp });
-                  }}
-                  showAnalysis={true}
-                />
-              </div>
 
-              {/* Chart Comparison */}
-              <ChartComparison
-                niftyData={[
-                  { timestamp: '2024-01-01T09:00:00Z', value: 18500, label: 'NIFTY Open' },
-                  { timestamp: '2024-01-01T10:00:00Z', value: 18650, label: 'NIFTY 10AM' },
-                  { timestamp: '2024-01-01T11:00:00Z', value: 18720, label: 'NIFTY 11AM' },
-                  { timestamp: '2024-01-01T12:00:00Z', value: 18680, label: 'NIFTY 12PM' },
-                  { timestamp: '2024-01-01T13:00:00Z', value: 18750, label: 'NIFTY 1PM' },
-                  { timestamp: '2024-01-01T14:00:00Z', value: 18800, label: 'NIFTY 2PM' },
-                  { timestamp: '2024-01-01T15:00:00Z', value: 18790, label: 'NIFTY 3PM' },
-                  { timestamp: '2024-01-01T15:30:00Z', value: 18820, label: 'NIFTY Close' },
-                ]}
-                bankNiftyData={[
-                  { timestamp: '2024-01-01T09:00:00Z', value: 42000, label: 'BANKNIFTY Open' },
-                  { timestamp: '2024-01-01T10:00:00Z', value: 42500, label: 'BANKNIFTY 10AM' },
-                  { timestamp: '2024-01-01T11:00:00Z', value: 42800, label: 'BANKNIFTY 11AM' },
-                  { timestamp: '2024-01-01T12:00:00Z', value: 42650, label: 'BANKNIFTY 12PM' },
-                  { timestamp: '2024-01-01T13:00:00Z', value: 42900, label: 'BANKNIFTY 1PM' },
-                  { timestamp: '2024-01-01T14:00:00Z', value: 43100, label: 'BANKNIFTY 2PM' },
-                  { timestamp: '2024-01-01T15:00:00Z', value: 43050, label: 'BANKNIFTY 3PM' },
-                  { timestamp: '2024-01-01T15:30:00Z', value: 43150, label: 'BANKNIFTY Close' },
-                ]}
-              />
+            {/* Analytics Link */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Advanced Analytics</h3>
+                  <p className="text-sm text-gray-600">Detailed performance analysis, correlation studies, and advanced charting tools</p>
+                </div>
+                <Button asChild variant="outline" className="flex-shrink-0">
+                  <Link href="/analytics" className="flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4" />
+                    View Analytics
+                  </Link>
+                </Button>
+              </div>
             </div>
 
-            {/* News List */}
-            <div role="region" aria-label="Market news and updates" data-onboarding="news-section">
-              <NewsList news={news} />
+            {/* News Link */}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg border border-green-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Market News</h3>
+                  <p className="text-sm text-gray-600">Latest market updates, sentiment analysis, and bias impact news</p>
+                </div>
+                <Button asChild variant="outline" className="flex-shrink-0">
+                  <Link href="/news" className="flex items-center gap-2">
+                    <Newspaper className="h-4 w-4" />
+                    View News
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -370,7 +322,7 @@ export default function Dashboard() {
           </h2>
           
           {/* Credentials Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 overflow-hidden">
             <Card className="bg-blue-50 border-blue-200" role="region" aria-label="Team credentials">
               <CardContent className="pt-4">
                 <div className="text-center">
@@ -413,7 +365,7 @@ export default function Dashboard() {
           </div>
           
           {/* Performance Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-hidden">
             <Card className="bg-blue-50 border-blue-200" role="region" aria-label="Historical accuracy">
               <CardContent className="pt-4">
                 <div className="text-center">
@@ -558,7 +510,7 @@ export default function Dashboard() {
             Past Performance Summary
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-hidden">
             <Card className="bg-green-50 border-green-200" role="region" aria-label="Overall accuracy performance">
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-900 mb-1">78.5%</div>
@@ -614,7 +566,7 @@ export default function Dashboard() {
           <h2 id="testimonials-heading" className="text-3xl font-bold text-gray-900 mb-8 text-center">
             Trusted by Professional Traders
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 overflow-hidden">
             <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-3">

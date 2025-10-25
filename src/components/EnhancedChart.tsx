@@ -73,7 +73,7 @@ export function EnhancedChart({
   // Calculate chart dimensions
   const chartWidth = isFullscreen 
     ? Math.min(windowSize.width - 100, 1200) 
-    : Math.min(400, Math.max(250, (windowSize.width || 800) / 2 - 50));
+    : Math.min(400, Math.max(250, Math.min((windowSize.width || 800) / 2 - 50, 400)));
   const chartHeight = isFullscreen 
     ? Math.min(windowSize.height - 200, 600) 
     : height;
@@ -133,8 +133,16 @@ export function EnhancedChart({
     const containerWidth = canvas.parentElement?.clientWidth || chartWidth;
     const actualWidth = Math.min(containerWidth, chartWidth);
     
-    canvas.width = actualWidth;
-    canvas.height = chartHeight;
+    // Set canvas size with proper scaling
+    canvas.width = actualWidth * (window.devicePixelRatio || 1);
+    canvas.height = chartHeight * (window.devicePixelRatio || 1);
+    canvas.style.width = `${actualWidth}px`;
+    canvas.style.height = `${chartHeight}px`;
+    
+    // Scale the context for high DPI displays
+    if (window.devicePixelRatio) {
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
 
     ctx.clearRect(0, 0, actualWidth, chartHeight);
 
@@ -470,21 +478,21 @@ export function EnhancedChart({
     <>
       <Card className={`${className} ${isFullscreen ? 'fixed inset-4 z-50' : ''}`}>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              {title}
+          <div className="flex items-center justify-between min-w-0">
+            <CardTitle className="flex items-center gap-2 min-w-0 flex-1">
+              <BarChart3 className="h-5 w-5 flex-shrink-0" />
+              <span className="truncate">{title}</span>
             </CardTitle>
             
             {showControls && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 {/* Chart Type Selector */}
-                <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+                <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 flex-shrink-0">
                   <Button
                     variant={chartType === 'line' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setChartType('line')}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 flex-shrink-0"
                   >
                     <LineChart className="h-4 w-4" />
                   </Button>
@@ -492,7 +500,7 @@ export function EnhancedChart({
                     variant={chartType === 'bar' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setChartType('bar')}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 flex-shrink-0"
                   >
                     <BarChart3 className="h-4 w-4" />
                   </Button>
@@ -500,31 +508,31 @@ export function EnhancedChart({
                     variant={chartType === 'area' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setChartType('area')}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 flex-shrink-0"
                   >
                     <Activity className="h-4 w-4" />
                   </Button>
                 </div>
 
                 {/* Zoom Controls */}
-                <div className="flex items-center gap-1">
-                  <Button variant="outline" size="sm" onClick={handleZoomOut} className="h-8 w-8 p-0">
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <Button variant="outline" size="sm" onClick={handleZoomOut} className="h-8 w-8 p-0 flex-shrink-0">
                     <ZoomOut className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="sm" onClick={handleZoomIn} className="h-8 w-8 p-0">
+                  <Button variant="outline" size="sm" onClick={handleZoomIn} className="h-8 w-8 p-0 flex-shrink-0">
                     <ZoomIn className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="sm" onClick={handleReset} className="h-8 w-8 p-0">
+                  <Button variant="outline" size="sm" onClick={handleReset} className="h-8 w-8 p-0 flex-shrink-0">
                     <RotateCcw className="h-4 w-4" />
                   </Button>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-1">
-                  <Button variant="outline" size="sm" onClick={handleDownload} className="h-8 w-8 p-0">
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <Button variant="outline" size="sm" onClick={handleDownload} className="h-8 w-8 p-0 flex-shrink-0">
                     <Download className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="sm" onClick={toggleFullscreen} className="h-8 w-8 p-0">
+                  <Button variant="outline" size="sm" onClick={toggleFullscreen} className="h-8 w-8 p-0 flex-shrink-0">
                     <Maximize2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -533,21 +541,21 @@ export function EnhancedChart({
           </div>
           
           {/* Chart Stats */}
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <div className="flex items-center gap-1">
-              <TrendingUp className="h-4 w-4 text-green-600" />
-              <span>Max: {maxValue.toFixed(2)}</span>
+          <div className="flex items-center gap-2 text-sm text-gray-600 flex-wrap">
+            <div className="flex items-center gap-1 min-w-0">
+              <TrendingUp className="h-4 w-4 text-green-600 flex-shrink-0" />
+              <span className="truncate">Max: {maxValue.toFixed(2)}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <TrendingDown className="h-4 w-4 text-red-600" />
-              <span>Min: {minValue.toFixed(2)}</span>
+            <div className="flex items-center gap-1 min-w-0">
+              <TrendingDown className="h-4 w-4 text-red-600 flex-shrink-0" />
+              <span className="truncate">Min: {minValue.toFixed(2)}</span>
             </div>
-            <Badge variant="secondary">
+            <Badge variant="secondary" className="flex-shrink-0">
               {data.length} points
             </Badge>
             {hoveredPoint && (
-              <Badge variant="outline">
-                {hoveredPoint.value.toFixed(2)}
+              <Badge variant="outline" className="flex-shrink-0">
+                <span className="truncate">{hoveredPoint.value.toFixed(2)}</span>
               </Badge>
             )}
           </div>
@@ -555,18 +563,19 @@ export function EnhancedChart({
         
         <CardContent className="p-4">
           <div className="relative w-full overflow-hidden">
-            <div className="w-full" style={{ minHeight: `${chartHeight + 40}px` }}>
+            <div className="w-full min-w-0" style={{ minHeight: `${chartHeight + 40}px` }}>
               <canvas
                 ref={canvasRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
-                className="cursor-crosshair border rounded-lg bg-white w-full"
+                className="cursor-crosshair border rounded-lg bg-white w-full max-w-full"
                 style={{ 
                   width: '100%', 
                   height: `${chartHeight}px`,
                   maxWidth: '100%',
-                  display: 'block'
+                  display: 'block',
+                  objectFit: 'contain'
                 }}
               />
             </div>
