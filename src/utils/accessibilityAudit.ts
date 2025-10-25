@@ -1,6 +1,6 @@
 'use client';
 
-import { checkContrast, validateAppColors } from './colorContrast';
+import { validateAppColors } from './colorContrast';
 
 interface AccessibilityIssue {
   type: 'error' | 'warning' | 'info';
@@ -177,13 +177,8 @@ export function runAccessibilityAudit(): AccessibilityAuditResult {
   }
 
   // Check for proper landmark roles
-  const landmarks = document.querySelectorAll(
-    '[role="banner"], [role="main"], [role="contentinfo"], [role="navigation"], [role="complementary"]'
-  );
-  
   const hasMain = document.querySelector('[role="main"], main');
   const hasBanner = document.querySelector('[role="banner"], header');
-  const hasContentInfo = document.querySelector('[role="contentinfo"], footer');
 
   if (!hasMain) {
     issues.push({

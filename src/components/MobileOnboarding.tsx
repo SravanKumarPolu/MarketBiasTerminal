@@ -41,7 +41,6 @@ const steps: OnboardingStep[] = [
 export function MobileOnboarding() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
     // Check if user has completed onboarding
@@ -64,7 +63,6 @@ export function MobileOnboarding() {
   };
 
   const handleComplete = () => {
-    setIsCompleted(true);
     localStorage.setItem('hasCompletedOnboarding', 'true');
     setTimeout(() => setIsOpen(false), 500);
   };

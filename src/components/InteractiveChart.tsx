@@ -128,11 +128,11 @@ export function InteractiveChart({
 
     // Draw chart based on type
     if (chartType === 'line') {
-      drawLineChart(ctx, visibleData, stepX, scaleY, padding, chartHeight);
+      drawLineChart(ctx, visibleData, stepX, scaleY, padding);
     } else if (chartType === 'bar') {
-      drawBarChart(ctx, visibleData, stepX, scaleY, padding, chartHeight);
+      drawBarChart(ctx, visibleData, stepX, scaleY, padding);
     } else if (chartType === 'area') {
-      drawAreaChart(ctx, visibleData, stepX, scaleY, padding, chartHeight);
+      drawAreaChart(ctx, visibleData, stepX, scaleY, padding);
     }
 
     // Draw axes
@@ -151,13 +151,13 @@ export function InteractiveChart({
         ctx.fill();
         
         // Draw tooltip
-        drawTooltip(ctx, hoveredPoint, x, y, actualWidth, chartHeight);
+        drawTooltip(ctx, hoveredPoint, x, y, actualWidth);
       }
     }
 
   }, [data, zoom, pan, hoveredPoint, chartType, chartWidth, chartHeight, valueRange, minValue, maxValue]);
 
-  const drawLineChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number) => {
+  const drawLineChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -176,7 +176,7 @@ export function InteractiveChart({
     ctx.stroke();
   };
 
-  const drawBarChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number) => {
+  const drawBarChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     const barWidth = stepX * 0.8;
     
     data.forEach((point, index) => {
@@ -189,7 +189,7 @@ export function InteractiveChart({
     });
   };
 
-  const drawAreaChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number) => {
+  const drawAreaChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     // Draw area
     ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
     ctx.beginPath();
@@ -259,7 +259,7 @@ export function InteractiveChart({
     }
   };
 
-  const drawTooltip = (ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, chartWidth: number, chartHeight: number) => {
+  const drawTooltip = (ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, chartWidth: number) => {
     const tooltipText = `${point.label || 'Value'}: ${point.value.toFixed(2)}`;
     const tooltipDate = new Date(point.timestamp).toLocaleString();
     
@@ -319,7 +319,7 @@ export function InteractiveChart({
     setHoveredPoint(null);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleClick = () => {
     if (hoveredPoint && onDataPointClick) {
       onDataPointClick(hoveredPoint);
     }

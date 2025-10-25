@@ -3,11 +3,6 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
-interface Shortcut {
-  key: string;
-  description: string;
-  action: () => void;
-}
 
 export function KeyboardShortcuts() {
   const router = useRouter();
@@ -51,9 +46,6 @@ export function KeyboardShortcuts() {
         // Focus management
         'Tab': () => {
           // Enhanced tab navigation with skip links
-          const focusableElements = document.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
           // This will be handled by browser's default tab order
         },
         

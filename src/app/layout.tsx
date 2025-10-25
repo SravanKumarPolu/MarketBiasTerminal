@@ -4,10 +4,11 @@ import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { EnhancedErrorBoundary } from "@/components/EnhancedErrorBoundary";
 import { AutoUpdate } from "@/components/AutoUpdate";
 import { ServiceWorkerProvider } from "@/components/ServiceWorkerProvider";
 import { MobileOnboarding } from "@/components/MobileOnboarding";
+import { MobileGestures } from "@/components/MobileGestures";
 import { KeyboardShortcuts, ShortcutsHelp } from "@/components/KeyboardShortcuts";
 
 const geistSans = Geist({
@@ -100,15 +101,18 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ServiceWorkerProvider>
-          <ErrorBoundary>
-            <KeyboardShortcuts />
-            <Navigation />
-            {children}
-            <Footer />
-            <MobileOnboarding />
-            <ShortcutsHelp />
-            <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
-            <Toaster />
+          <EnhancedErrorBoundary enableRecovery={true} enableReporting={true}>
+            <MobileGestures enableNavigation={true} enableRefresh={true} enableHaptic={true}>
+              <KeyboardShortcuts />
+              <Navigation />
+              {children}
+              <Footer />
+              <MobileOnboarding />
+              <ShortcutsHelp />
+              <AutoUpdate showButton={true} autoCheck={true} checkInterval={5} />
+              <Toaster />
+            </MobileGestures>
+          </EnhancedErrorBoundary>
           {/* Structured Data */}
           <script
             type="application/ld+json"
@@ -134,7 +138,6 @@ export default function RootLayout({
               })
             }}
           />
-          </ErrorBoundary>
         </ServiceWorkerProvider>
       </body>
     </html>

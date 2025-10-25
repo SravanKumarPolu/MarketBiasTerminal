@@ -14,10 +14,7 @@ import {
   ZoomOut,
   RotateCcw,
   Download,
-  Maximize2,
-  Settings,
-  Info,
-  AlertTriangle
+  Maximize2
 } from 'lucide-react';
 import { ChartAnalysisModal } from './ChartAnalysisModal';
 
@@ -90,7 +87,6 @@ export function EnhancedChart({
   const generateAnalysis = (point: ChartDataPoint) => {
     const pointIndex = data.findIndex(d => d.timestamp === point.timestamp);
     const prevPoint = data[pointIndex - 1];
-    const nextPoint = data[pointIndex + 1];
     
     const change = prevPoint ? ((point.value - prevPoint.value) / prevPoint.value) * 100 : 0;
     const trend: 'bullish' | 'bearish' | 'neutral' = change > 0.5 ? 'bullish' : change < -0.5 ? 'bearish' : 'neutral';
@@ -168,13 +164,13 @@ export function EnhancedChart({
 
     // Draw chart based on type
     if (chartType === 'line') {
-      drawLineChart(ctx, visibleData, stepX, scaleY, padding, chartHeight, actualWidth);
+      drawLineChart(ctx, visibleData, stepX, scaleY, padding);
     } else if (chartType === 'bar') {
-      drawBarChart(ctx, visibleData, stepX, scaleY, padding, chartHeight);
+      drawBarChart(ctx, visibleData, stepX, scaleY, padding);
     } else if (chartType === 'area') {
-      drawAreaChart(ctx, visibleData, stepX, scaleY, padding, chartHeight, actualWidth);
+      drawAreaChart(ctx, visibleData, stepX, scaleY, padding);
     } else if (chartType === 'candlestick') {
-      drawCandlestickChart(ctx, visibleData, stepX, scaleY, padding, chartHeight);
+      drawCandlestickChart(ctx, visibleData, stepX, scaleY, padding);
     }
 
     // Draw axes
@@ -206,13 +202,13 @@ export function EnhancedChart({
         ctx.fill();
         
         // Draw tooltip
-        drawTooltip(ctx, hoveredPoint, x, y, actualWidth, chartHeight);
+        drawTooltip(ctx, hoveredPoint, x, y, actualWidth);
       }
     }
 
   }, [data, zoom, pan, hoveredPoint, chartType, chartWidth, chartHeight, valueRange, minValue, maxValue]);
 
-  const drawLineChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number, actualWidth: number) => {
+  const drawLineChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -231,7 +227,7 @@ export function EnhancedChart({
     ctx.stroke();
   };
 
-  const drawBarChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number) => {
+  const drawBarChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     const barWidth = stepX * 0.8;
     
     data.forEach((point, index) => {
@@ -244,7 +240,7 @@ export function EnhancedChart({
     });
   };
 
-  const drawAreaChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number, actualWidth: number) => {
+  const drawAreaChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     // Draw area
     ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
     ctx.beginPath();
@@ -279,7 +275,7 @@ export function EnhancedChart({
     ctx.stroke();
   };
 
-  const drawCandlestickChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartHeight: number) => {
+  const drawCandlestickChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     const barWidth = stepX * 0.6;
     
     data.forEach((point, index) => {
@@ -316,27 +312,56 @@ export function EnhancedChart({
     ctx.lineTo(padding, chartHeight - padding);
     ctx.stroke();
 
-    // Y-axis labels
+    // Y-axis labels with proper formatting
     ctx.fillStyle = '#6b7280';
-    ctx.font = '12px sans-serif';
+    ctx.font = '11px sans-serif';
     ctx.textAlign = 'right';
     
     for (let i = 0; i <= 5; i++) {
       const value = minValue + (valueRange * i / 5);
       const y = chartHeight - padding - (chartHeight - 2 * padding) * (i / 5);
-      ctx.fillText(value.toFixed(1), padding - 10, y + 4);
+      
+      // Format large numbers properly
+      let formattedValue;
+      if (value >= 1000) {
+        formattedValue = (value / 1000).toFixed(1) + 'K';
+      } else {
+        formattedValue = value.toFixed(0);
+      }
+      
+      ctx.fillText(formattedValue, padding - 8, y + 4);
     }
 
-    // X-axis labels
+    // X-axis labels with better spacing and formatting
     ctx.textAlign = 'center';
-    for (let i = 0; i < data.length; i += Math.max(1, Math.floor(data.length / 5))) {
+    ctx.font = '10px sans-serif';
+    
+    // Calculate how many labels we can fit
+    const maxLabels = Math.floor((actualWidth - 2 * padding) / 60); // 60px per label
+    const labelStep = Math.max(1, Math.floor(data.length / maxLabels));
+    
+    for (let i = 0; i < data.length; i += labelStep) {
       const x = padding + i * stepX;
-      const date = new Date(data[i].timestamp);
-      ctx.fillText(date.toLocaleDateString(), x, chartHeight - padding + 20);
+      
+      // Only draw if within bounds
+      if (x >= padding && x <= actualWidth - padding) {
+        const date = new Date(data[i].timestamp);
+        const timeStr = date.toLocaleTimeString('en-IN', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: false 
+        });
+        
+        // Check if text fits
+        const textWidth = ctx.measureText(timeStr).width;
+        if (textWidth < stepX * 0.8) {
+          ctx.fillText(timeStr, x, chartHeight - padding + 15);
+        }
+      }
     }
   };
 
-  const drawTooltip = (ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, actualWidth: number, chartHeight: number) => {
+  const drawTooltip = (ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, actualWidth: number) => {
     const tooltipText = `${point.label || 'Value'}: ${point.value.toFixed(2)}`;
     const tooltipDate = new Date(point.timestamp).toLocaleString();
     
@@ -395,7 +420,7 @@ export function EnhancedChart({
     setHoveredPoint(null);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleClick = () => {
     if (hoveredPoint) {
       setSelectedPoint(hoveredPoint);
       if (showAnalysis) {
@@ -530,17 +555,18 @@ export function EnhancedChart({
         
         <CardContent className="p-4">
           <div className="relative w-full overflow-hidden">
-            <div className="w-full max-w-full">
+            <div className="w-full" style={{ minHeight: `${chartHeight + 40}px` }}>
               <canvas
                 ref={canvasRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
-                className="cursor-crosshair border rounded-lg bg-white w-full max-w-full"
+                className="cursor-crosshair border rounded-lg bg-white w-full"
                 style={{ 
                   width: '100%', 
                   height: `${chartHeight}px`,
-                  maxWidth: '100%'
+                  maxWidth: '100%',
+                  display: 'block'
                 }}
               />
             </div>

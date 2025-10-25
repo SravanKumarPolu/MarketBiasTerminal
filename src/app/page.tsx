@@ -9,7 +9,6 @@ import { SectorHeatmap } from '@/components/SectorHeatmap';
 import { NewsList } from '@/components/NewsList';
 import { SkeletonCard, SkeletonLevels, SkeletonSector } from '@/components/SkeletonCard';
 import { HeroSection } from '@/components/HeroSection';
-import { InteractiveChart } from '@/components/InteractiveChart';
 import { EnhancedChart } from '@/components/EnhancedChart';
 import { ChartComparison } from '@/components/ChartComparison';
 import { Button } from '@/components/ui/button';

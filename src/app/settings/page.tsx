@@ -6,12 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Settings, RefreshCw, AlertTriangle, Clock, Globe } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Settings, RefreshCw, AlertTriangle, Clock, Globe, User, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
+import { UserPreferences } from '@/components/UserPreferences';
+import { AnalyticsDashboard } from '@/components/AnalyticsDashboard';
 
 export default function SettingsPage() {
   const { settings, updateSettings, setDataSource } = useMarketStore();
   const [localSettings, setLocalSettings] = useState(settings);
+  const [activeTab, setActiveTab] = useState('general');
 
   const handleSave = () => {
     updateSettings(localSettings);
@@ -38,16 +42,35 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-6">
           {/* Header */}
           <div className="flex items-center space-x-3">
             <Settings className="h-8 w-8 text-blue-600" />
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-              <p className="text-gray-600">Configure your trading preferences and data sources</p>
+              <p className="text-gray-600">Configure your trading preferences, user settings, and view analytics</p>
             </div>
           </div>
+
+          {/* Settings Tabs */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="general" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                General
+              </TabsTrigger>
+              <TabsTrigger value="preferences" className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Preferences
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Analytics
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="general" className="space-y-6">
 
           {/* Data Source Settings */}
           <Card>
@@ -334,6 +357,16 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
+            </TabsContent>
+
+            <TabsContent value="preferences" className="space-y-6">
+              <UserPreferences />
+            </TabsContent>
+
+            <TabsContent value="analytics" className="space-y-6">
+              <AnalyticsDashboard />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

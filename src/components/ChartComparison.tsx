@@ -6,16 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  TrendingUp, 
-  TrendingDown, 
   BarChart3, 
-  LineChart, 
-  Activity,
   Maximize2,
   Minimize2,
-  RotateCcw,
   Download,
-  Settings,
   Info,
   Target,
   AlertTriangle
