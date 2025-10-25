@@ -101,17 +101,28 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Main Content */}
+        <main 
+          id="main-content"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" 
+          role="main" 
+          aria-label="Market analysis dashboard"
+          tabIndex={-1}
+        >
         {/* Error Banner */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="assertive">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <AlertCircle className="h-5 w-5 text-red-600" />
+                <AlertCircle className="h-5 w-5 text-red-600" aria-hidden="true" />
                 <span className="text-red-800">{error}</span>
               </div>
-              <Button variant="ghost" size="sm" onClick={clearError}>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={clearError}
+                aria-label="Dismiss error message"
+              >
                 ×
               </Button>
             </div>
@@ -120,9 +131,9 @@ export default function Dashboard() {
 
         {/* Holiday Banner */}
         {isHoliday && (
-          <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg" role="alert" aria-live="polite">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <AlertCircle className="h-5 w-5 text-yellow-600" aria-hidden="true" />
               <span className="text-yellow-800">Market is closed today (Trading Holiday)</span>
             </div>
           </div>
@@ -130,9 +141,9 @@ export default function Dashboard() {
 
         {/* Market Closed Banner */}
         {!isMarketOpen && !isHoliday && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg" role="alert" aria-live="polite">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-blue-600" />
+              <Clock className="h-5 w-5 text-blue-600" aria-hidden="true" />
               <span className="text-blue-800">
                 Market is closed. Next open: {marketStatus.nextOpen?.toLocaleString('en-IN', {
                   timeZone: 'Asia/Kolkata',
@@ -149,13 +160,18 @@ export default function Dashboard() {
           {/* Left Column - Bias Cards and Levels */}
           <div className="lg:col-span-2 space-y-6">
             {/* Bias Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              role="region"
+              aria-label="Market bias analysis"
+              aria-live="polite"
+            >
               {isLoading && !niftyBias ? (
                 <SkeletonCard />
               ) : niftyBias ? (
                 <BiasCard bias={niftyBias} />
               ) : (
-                <Card className="w-full">
+                <Card className="w-full" role="region" aria-label="NIFTY bias - No data available">
                   <CardContent className="p-6 text-center text-gray-500">
                     <div className="text-sm">NIFTY Bias - No data available</div>
                   </CardContent>
@@ -166,7 +182,7 @@ export default function Dashboard() {
               ) : bankNiftyBias ? (
                 <BiasCard bias={bankNiftyBias} />
               ) : (
-                <Card className="w-full">
+                <Card className="w-full" role="region" aria-label="BANKNIFTY bias - No data available">
                   <CardContent className="p-6 text-center text-gray-500">
                     <div className="text-sm">BANKNIFTY Bias - No data available</div>
                   </CardContent>
@@ -175,13 +191,17 @@ export default function Dashboard() {
             </div>
 
             {/* Levels Panels */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              role="region"
+              aria-label="Key market levels"
+            >
               {isLoading && !keyLevels.nifty ? (
                 <SkeletonLevels />
               ) : keyLevels.nifty ? (
                 <LevelsPanel levels={keyLevels.nifty} index="NIFTY" />
               ) : (
-                <Card className="w-full">
+                <Card className="w-full" role="region" aria-label="NIFTY levels - No data available">
                   <CardContent className="p-6 text-center text-gray-500">
                     <div className="text-sm">NIFTY Levels - No data available</div>
                   </CardContent>
@@ -192,7 +212,7 @@ export default function Dashboard() {
               ) : keyLevels.bankNifty ? (
                 <LevelsPanel levels={keyLevels.bankNifty} index="BANKNIFTY" />
               ) : (
-                <Card className="w-full">
+                <Card className="w-full" role="region" aria-label="BANKNIFTY levels - No data available">
                   <CardContent className="p-6 text-center text-gray-500">
                     <div className="text-sm">BANKNIFTY Levels - No data available</div>
                   </CardContent>
@@ -201,7 +221,11 @@ export default function Dashboard() {
             </div>
 
             {/* First 15m Boxes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              role="region"
+              aria-label="First 15 minutes analysis"
+            >
               <First15mBox data={first15m.nifty} index="NIFTY" />
               <First15mBox data={first15m.bankNifty} index="BANKNIFTY" />
             </div>
@@ -210,26 +234,30 @@ export default function Dashboard() {
           {/* Right Column - Sectors and News */}
           <div className="space-y-6">
             {/* Sector Heatmap */}
-            {isLoading && sectors.length === 0 ? (
-              <SkeletonSector />
-            ) : (
-              <SectorHeatmap sectors={sectors} />
-            )}
+            <div role="region" aria-label="Sector performance analysis">
+              {isLoading && sectors.length === 0 ? (
+                <SkeletonSector />
+              ) : (
+                <SectorHeatmap sectors={sectors} />
+              )}
+            </div>
             
             {/* News List */}
-            <NewsList news={news} />
+            <div role="region" aria-label="Market news and updates">
+              <NewsList news={news} />
+            </div>
           </div>
         </div>
 
         {/* Provider Credentials & Performance */}
-        <div className="mt-8 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <section className="mt-8 mb-6" role="region" aria-labelledby="credentials-heading">
+          <h2 id="credentials-heading" className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Provider Credentials & Track Record
           </h2>
           
           {/* Credentials Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <Card className="bg-blue-50 border-blue-200">
+            <Card className="bg-blue-50 border-blue-200" role="region" aria-label="Team credentials">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-blue-900 mb-1">6 PhDs</div>
@@ -239,7 +267,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-green-50 border-green-200">
+            <Card className="bg-green-50 border-green-200" role="region" aria-label="Industry experience">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-green-900 mb-1">15+ Years</div>
@@ -249,7 +277,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-purple-50 border-purple-200">
+            <Card className="bg-purple-50 border-purple-200" role="region" aria-label="Research publications">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-purple-900 mb-1">50+ Papers</div>
@@ -259,7 +287,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-orange-50 border-orange-200">
+            <Card className="bg-orange-50 border-orange-200" role="region" aria-label="Assets under management">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-orange-900 mb-1">$5B+</div>
@@ -272,7 +300,7 @@ export default function Dashboard() {
           
           {/* Performance Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="bg-blue-50 border-blue-200">
+            <Card className="bg-blue-50 border-blue-200" role="region" aria-label="Historical accuracy">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-blue-900 mb-1">78.5%</div>
@@ -282,7 +310,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-green-50 border-green-200">
+            <Card className="bg-green-50 border-green-200" role="region" aria-label="Sharpe ratio">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-green-900 mb-1">1.42</div>
@@ -292,7 +320,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-red-50 border-red-200">
+            <Card className="bg-red-50 border-red-200" role="region" aria-label="Maximum drawdown">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-red-900 mb-1">-8.3%</div>
@@ -302,7 +330,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-purple-50 border-purple-200">
+            <Card className="bg-purple-50 border-purple-200" role="region" aria-label="Win rate">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-xl font-bold text-purple-900 mb-1">68.2%</div>
@@ -312,19 +340,19 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </section>
 
         {/* Data Sources & Calculation Methodology */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <section className="mb-6" role="region" aria-labelledby="methodology-heading">
+          <h2 id="methodology-heading" className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Data Sources & Calculation Methodology
           </h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Data Sources */}
-            <Card>
+            <Card role="region" aria-labelledby="data-sources-title">
               <CardHeader>
-                <CardTitle className="text-lg">Data Sources & Quality</CardTitle>
+                <CardTitle id="data-sources-title" className="text-lg">Data Sources & Quality</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
@@ -360,9 +388,9 @@ export default function Dashboard() {
             </Card>
 
             {/* Calculation Methodology */}
-            <Card>
+            <Card role="region" aria-labelledby="calculation-title">
               <CardHeader>
-                <CardTitle className="text-lg">Bias Calculation Engine</CardTitle>
+                <CardTitle id="calculation-title" className="text-lg">Bias Calculation Engine</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
@@ -402,22 +430,22 @@ export default function Dashboard() {
             <div className="text-sm text-gray-600 mb-2">
               <strong>Transparent Methodology:</strong> All calculations are open-source and auditable
             </div>
-            <div className="flex gap-4 justify-center">
-              <a href="/methodology" className="text-blue-600 hover:underline text-sm">View Full Methodology</a>
-              <a href="/disclosures" className="text-blue-600 hover:underline text-sm">Data Policy</a>
-              <a href="/performance" className="text-blue-600 hover:underline text-sm">Track Record</a>
-            </div>
+            <nav className="flex gap-4 justify-center" role="navigation" aria-label="Methodology links">
+              <a href="/methodology" className="text-blue-600 hover:underline text-sm" aria-label="View full methodology">View Full Methodology</a>
+              <a href="/disclosures" className="text-blue-600 hover:underline text-sm" aria-label="View data policy">Data Policy</a>
+              <a href="/performance" className="text-blue-600 hover:underline text-sm" aria-label="View track record">Track Record</a>
+            </nav>
           </div>
-        </div>
+        </section>
 
         {/* Past Performance Summary */}
-        <div className="mt-8 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <section className="mt-8 mb-6" role="region" aria-labelledby="performance-heading">
+          <h2 id="performance-heading" className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Past Performance Summary
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="bg-green-50 border-green-200">
+            <Card className="bg-green-50 border-green-200" role="region" aria-label="Overall accuracy performance">
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-900 mb-1">78.5%</div>
                 <div className="text-sm text-green-700 mb-1">Overall Accuracy</div>
@@ -426,7 +454,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-blue-50 border-blue-200">
+            <Card className="bg-blue-50 border-blue-200" role="region" aria-label="Sharpe ratio performance">
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-blue-900 mb-1">1.42</div>
                 <div className="text-sm text-blue-700 mb-1">Sharpe Ratio</div>
@@ -435,7 +463,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-red-50 border-red-200">
+            <Card className="bg-red-50 border-red-200" role="region" aria-label="Maximum drawdown performance">
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-red-900 mb-1">-8.3%</div>
                 <div className="text-sm text-red-700 mb-1">Max Drawdown</div>
@@ -444,7 +472,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            <Card className="bg-purple-50 border-purple-200">
+            <Card className="bg-purple-50 border-purple-200" role="region" aria-label="Win rate performance">
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-purple-900 mb-1">68.2%</div>
                 <div className="text-sm text-purple-700 mb-1">Win Rate</div>
@@ -459,19 +487,19 @@ export default function Dashboard() {
               <strong>Performance Disclaimer:</strong> Past performance does not guarantee future results. 
               All data is independently audited and transparent.
             </div>
-            <div className="flex gap-4 justify-center">
-              <a href="/performance" className="text-blue-600 hover:underline text-sm">View Full Track Record</a>
-              <a href="/testimonials" className="text-blue-600 hover:underline text-sm">User Reviews</a>
-              <a href="/disclosures" className="text-blue-600 hover:underline text-sm">Risk Disclosures</a>
-            </div>
+            <nav className="flex gap-4 justify-center" role="navigation" aria-label="Performance links">
+              <a href="/performance" className="text-blue-600 hover:underline text-sm" aria-label="View full track record">View Full Track Record</a>
+              <a href="/testimonials" className="text-blue-600 hover:underline text-sm" aria-label="View user reviews">User Reviews</a>
+              <a href="/disclosures" className="text-blue-600 hover:underline text-sm" aria-label="View risk disclosures">Risk Disclosures</a>
+            </nav>
           </div>
-        </div>
+        </section>
 
         {/* Enhanced Due Diligence Warning */}
-        <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <section className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="assertive">
           <div className="text-sm text-red-800 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <AlertCircle className="h-5 w-5" />
+              <AlertCircle className="h-5 w-5" aria-hidden="true" />
               <strong>Critical Due Diligence Requirements</strong>
             </div>
             <div className="mb-3">
@@ -484,17 +512,17 @@ export default function Dashboard() {
               <strong>TREAT AS ONE INPUT:</strong> Use this bias as <strong>one input among many</strong> — blend with your own analysis, fundamental research, and risk management.
             </div>
             <div className="mb-3">
-              <strong>UNDERSTAND THE METHODOLOGY:</strong> Review our <a href="/methodology" className="text-blue-600 hover:underline">detailed methodology</a> to understand what &quot;bias&quot; means and how it&apos;s calculated.
+              <strong>UNDERSTAND THE METHODOLOGY:</strong> Review our <a href="/methodology" className="text-blue-600 hover:underline" aria-label="View detailed methodology">detailed methodology</a> to understand what &quot;bias&quot; means and how it&apos;s calculated.
             </div>
             <div className="mb-3">
-              <strong>TRACK RECORD:</strong> Check our <a href="/performance" className="text-blue-600 hover:underline">historical performance</a> and accuracy data before making decisions.
+              <strong>TRACK RECORD:</strong> Check our <a href="/performance" className="text-blue-600 hover:underline" aria-label="View historical performance">historical performance</a> and accuracy data before making decisions.
             </div>
             <div className="text-xs text-red-700">
               <strong>For Indian Markets (IST):</strong> This platform is optimized for Indian market hours (9:15 AM - 3:30 PM IST). 
               Consider your timezone (Raichur, Karnataka) and market timing relevance.
             </div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

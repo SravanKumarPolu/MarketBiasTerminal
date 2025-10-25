@@ -29,7 +29,7 @@ export const featureFlags = {
   
   // Debug Features
   ENABLE_DEBUG_LOGGING: process.env.DEBUG_MODE === 'true' || false,
-  ENABLE_PERFORMANCE_MONITORING: false,
+  ENABLE_PERFORMANCE_MONITORING: true,
   
   // UI Features
   ENABLE_DARK_MODE: true,

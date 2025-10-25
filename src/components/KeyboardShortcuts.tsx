@@ -19,7 +19,9 @@ export function KeyboardShortcuts() {
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
-        (e.target as HTMLElement).isContentEditable
+        e.target instanceof HTMLSelectElement ||
+        (e.target as HTMLElement).isContentEditable ||
+        (e.target as HTMLElement).getAttribute('role') === 'textbox'
       ) {
         return;
       }
@@ -36,7 +38,31 @@ export function KeyboardShortcuts() {
         // Quick actions (from dashboard)
         'r': () => {
           if (pathname === '/') {
-            window.location.reload();
+            // Find and trigger refresh button if available
+            const refreshButton = document.querySelector('[aria-label*="refresh" i]') as HTMLButtonElement;
+            if (refreshButton && !refreshButton.disabled) {
+              refreshButton.click();
+            } else {
+              window.location.reload();
+            }
+          }
+        },
+        
+        // Focus management
+        'Tab': () => {
+          // Enhanced tab navigation with skip links
+          const focusableElements = document.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          // This will be handled by browser's default tab order
+        },
+        
+        // Skip to main content
+        's': () => {
+          const mainContent = document.querySelector('main, [role="main"]');
+          if (mainContent) {
+            (mainContent as HTMLElement).focus();
+            mainContent.scrollIntoView({ behavior: 'smooth' });
           }
         },
         
@@ -45,6 +71,11 @@ export function KeyboardShortcuts() {
           const modal = document.getElementById('shortcuts-modal');
           if (modal) {
             modal.classList.remove('hidden');
+            // Focus the modal for screen readers
+            const modalContent = modal.querySelector('[role="dialog"]') as HTMLElement;
+            if (modalContent) {
+              modalContent.focus();
+            }
           }
         },
         
@@ -56,6 +87,13 @@ export function KeyboardShortcuts() {
               modal.classList.add('hidden');
             }
           });
+          
+          // Return focus to the element that opened the modal
+          const lastFocusedElement = document.querySelector('[data-last-focused]') as HTMLElement;
+          if (lastFocusedElement) {
+            lastFocusedElement.focus();
+            lastFocusedElement.removeAttribute('data-last-focused');
+          }
         },
       };
 
@@ -94,60 +132,82 @@ export function KeyboardShortcuts() {
 // Keyboard Shortcuts Help Modal
 export function ShortcutsHelp() {
   return (
-    <div id="shortcuts-modal" className="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50" onClick={() => {
-        const modal = document.getElementById('shortcuts-modal');
-        if (modal) modal.classList.add('hidden');
-      }} />
+    <div 
+      id="shortcuts-modal" 
+      className="hidden fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="shortcuts-title"
+      aria-describedby="shortcuts-description"
+    >
+      <div 
+        className="absolute inset-0 bg-black/50" 
+        onClick={() => {
+          const modal = document.getElementById('shortcuts-modal');
+          if (modal) modal.classList.add('hidden');
+        }}
+        aria-hidden="true"
+      />
       
-      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 animate-slide-up">
-        <h2 className="text-2xl font-bold mb-4">Keyboard Shortcuts</h2>
+      <div 
+        className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 animate-slide-up"
+        role="document"
+        tabIndex={-1}
+      >
+        <h2 id="shortcuts-title" className="text-2xl font-bold mb-4">Keyboard Shortcuts</h2>
+        <p id="shortcuts-description" className="text-gray-600 mb-6">
+          Use these keyboard shortcuts to navigate and interact with the application more efficiently.
+        </p>
         
         <div className="space-y-4">
           <div>
             <h3 className="font-semibold mb-2">Navigation</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
+            <div className="space-y-2 text-sm" role="list" aria-label="Navigation shortcuts">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to Dashboard</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g h</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then h">g h</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to Indices</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g i</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then i">g i</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to Sectors</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g s</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then s">g s</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to Stocks</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g t</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then t">g t</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to News</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g n</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then n">g n</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Go to Settings</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">g c</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press g then c">g c</kbd>
               </div>
             </div>
           </div>
           
           <div>
             <h3 className="font-semibold mb-2">Actions</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
+            <div className="space-y-2 text-sm" role="list" aria-label="Action shortcuts">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Refresh</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">r</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press r">r</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
+                <span className="text-gray-600">Skip to main content</span>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press s">s</kbd>
+              </div>
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Show shortcuts</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">?</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press question mark">?</kbd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between" role="listitem">
                 <span className="text-gray-600">Close modal</span>
-                <kbd className="px-2 py-1 bg-gray-100 rounded">Esc</kbd>
+                <kbd className="px-2 py-1 bg-gray-100 rounded" aria-label="Press Escape">Esc</kbd>
               </div>
             </div>
           </div>
@@ -158,7 +218,8 @@ export function ShortcutsHelp() {
             const modal = document.getElementById('shortcuts-modal');
             if (modal) modal.classList.add('hidden');
           }}
-          className="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label="Close keyboard shortcuts help"
         >
           Got it
         </button>
