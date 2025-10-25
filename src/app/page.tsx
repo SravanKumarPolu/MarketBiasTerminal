@@ -9,6 +9,9 @@ import { SectorHeatmap } from '@/components/SectorHeatmap';
 import { NewsList } from '@/components/NewsList';
 import { SkeletonCard, SkeletonLevels, SkeletonSector } from '@/components/SkeletonCard';
 import { HeroSection } from '@/components/HeroSection';
+import { InteractiveChart } from '@/components/InteractiveChart';
+import { EnhancedChart } from '@/components/EnhancedChart';
+import { ChartComparison } from '@/components/ChartComparison';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, Clock, AlertCircle, ArrowRight } from 'lucide-react';
@@ -282,6 +285,78 @@ export default function Dashboard() {
               )}
             </div>
             
+            {/* Enhanced Charts Section */}
+            <div className="space-y-6 mb-6" data-onboarding="charts-section">
+              {/* Individual Charts */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                <EnhancedChart
+                  data={[
+                    { timestamp: '2024-01-01T09:00:00Z', value: 18500, label: 'NIFTY Open', change: 0 },
+                    { timestamp: '2024-01-01T10:00:00Z', value: 18650, label: 'NIFTY 10AM', change: 0.81 },
+                    { timestamp: '2024-01-01T11:00:00Z', value: 18720, label: 'NIFTY 11AM', change: 1.19 },
+                    { timestamp: '2024-01-01T12:00:00Z', value: 18680, label: 'NIFTY 12PM', change: 0.97 },
+                    { timestamp: '2024-01-01T13:00:00Z', value: 18750, label: 'NIFTY 1PM', change: 1.35 },
+                    { timestamp: '2024-01-01T14:00:00Z', value: 18800, label: 'NIFTY 2PM', change: 1.62 },
+                    { timestamp: '2024-01-01T15:00:00Z', value: 18790, label: 'NIFTY 3PM', change: 1.57 },
+                    { timestamp: '2024-01-01T15:30:00Z', value: 18820, label: 'NIFTY Close', change: 1.73 },
+                  ]}
+                  title="NIFTY 50 Intraday Performance"
+                  type="line"
+                  height={300}
+                  onDataPointClick={(point) => {
+                    console.log('Clicked NIFTY data point:', point);
+                    trackInteraction('chart_click', 'nifty_chart', { value: point.value, timestamp: point.timestamp });
+                  }}
+                  showAnalysis={true}
+                />
+                
+                <EnhancedChart
+                  data={[
+                    { timestamp: '2024-01-01T09:00:00Z', value: 42000, label: 'BANKNIFTY Open', change: 0 },
+                    { timestamp: '2024-01-01T10:00:00Z', value: 42500, label: 'BANKNIFTY 10AM', change: 1.19 },
+                    { timestamp: '2024-01-01T11:00:00Z', value: 42800, label: 'BANKNIFTY 11AM', change: 1.90 },
+                    { timestamp: '2024-01-01T12:00:00Z', value: 42650, label: 'BANKNIFTY 12PM', change: 1.55 },
+                    { timestamp: '2024-01-01T13:00:00Z', value: 42900, label: 'BANKNIFTY 1PM', change: 2.14 },
+                    { timestamp: '2024-01-01T14:00:00Z', value: 43100, label: 'BANKNIFTY 2PM', change: 2.62 },
+                    { timestamp: '2024-01-01T15:00:00Z', value: 43050, label: 'BANKNIFTY 3PM', change: 2.50 },
+                    { timestamp: '2024-01-01T15:30:00Z', value: 43150, label: 'BANKNIFTY Close', change: 2.74 },
+                  ]}
+                  title="BANK NIFTY Intraday Performance"
+                  type="area"
+                  height={300}
+                  onDataPointClick={(point) => {
+                    console.log('Clicked BANKNIFTY data point:', point);
+                    trackInteraction('chart_click', 'banknifty_chart', { value: point.value, timestamp: point.timestamp });
+                  }}
+                  showAnalysis={true}
+                />
+              </div>
+
+              {/* Chart Comparison */}
+              <ChartComparison
+                niftyData={[
+                  { timestamp: '2024-01-01T09:00:00Z', value: 18500, label: 'NIFTY Open' },
+                  { timestamp: '2024-01-01T10:00:00Z', value: 18650, label: 'NIFTY 10AM' },
+                  { timestamp: '2024-01-01T11:00:00Z', value: 18720, label: 'NIFTY 11AM' },
+                  { timestamp: '2024-01-01T12:00:00Z', value: 18680, label: 'NIFTY 12PM' },
+                  { timestamp: '2024-01-01T13:00:00Z', value: 18750, label: 'NIFTY 1PM' },
+                  { timestamp: '2024-01-01T14:00:00Z', value: 18800, label: 'NIFTY 2PM' },
+                  { timestamp: '2024-01-01T15:00:00Z', value: 18790, label: 'NIFTY 3PM' },
+                  { timestamp: '2024-01-01T15:30:00Z', value: 18820, label: 'NIFTY Close' },
+                ]}
+                bankNiftyData={[
+                  { timestamp: '2024-01-01T09:00:00Z', value: 42000, label: 'BANKNIFTY Open' },
+                  { timestamp: '2024-01-01T10:00:00Z', value: 42500, label: 'BANKNIFTY 10AM' },
+                  { timestamp: '2024-01-01T11:00:00Z', value: 42800, label: 'BANKNIFTY 11AM' },
+                  { timestamp: '2024-01-01T12:00:00Z', value: 42650, label: 'BANKNIFTY 12PM' },
+                  { timestamp: '2024-01-01T13:00:00Z', value: 42900, label: 'BANKNIFTY 1PM' },
+                  { timestamp: '2024-01-01T14:00:00Z', value: 43100, label: 'BANKNIFTY 2PM' },
+                  { timestamp: '2024-01-01T15:00:00Z', value: 43050, label: 'BANKNIFTY 3PM' },
+                  { timestamp: '2024-01-01T15:30:00Z', value: 43150, label: 'BANKNIFTY Close' },
+                ]}
+              />
+            </div>
+
             {/* News List */}
             <div role="region" aria-label="Market news and updates" data-onboarding="news-section">
               <NewsList news={news} />

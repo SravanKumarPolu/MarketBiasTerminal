@@ -70,6 +70,14 @@ const onboardingSteps: OnboardingStep[] = [
     position: 'left'
   },
   {
+    id: 'interactive-charts',
+    title: 'Interactive Charts',
+    description: 'Real-time performance charts with zoom, pan, and interactive data points for detailed analysis.',
+    icon: <BarChart3 className="h-6 w-6 text-blue-600" />,
+    target: 'charts-section',
+    position: 'top'
+  },
+  {
     id: 'news-sentiment',
     title: 'News & Sentiment',
     description: 'Market-relevant news with AI-powered sentiment analysis to understand market mood.',
