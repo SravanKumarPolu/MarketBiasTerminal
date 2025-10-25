@@ -99,23 +99,32 @@ export function HeroSection({ marketStatus, isMarketOpen }: HeroSectionProps) {
 
             {/* CTAs */}
             <nav className="flex flex-col sm:flex-row gap-4" role="navigation" aria-label="Main call-to-action buttons">
-              <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+              <Button asChild size="lg" className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                <Link 
+                  href="#main-content" 
+                  className="flex items-center gap-2 px-6 py-3"
+                  aria-label="Get started with market analysis"
+                >
+                  Get Started Free
+                  <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-2 border-white bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                <Link 
+                  href="/testimonials" 
+                  className="flex items-center gap-2 px-6 py-3"
+                  aria-label="View user testimonials and reviews"
+                >
+                  See User Reviews
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-2 border-white bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all">
                 <Link 
                   href="/methodology" 
                   className="flex items-center gap-2 px-6 py-3"
                   aria-label="View detailed methodology and calculation process"
                 >
                   View Methodology
-                  <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-2 border-white bg-white hover:bg-blue-50 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
-                <Link 
-                  href="/performance" 
-                  className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:text-blue-800"
-                  aria-label="View historical performance and track record"
-                >
-                  See Track Record
                 </Link>
               </Button>
             </nav>

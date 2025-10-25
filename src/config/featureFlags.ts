@@ -31,6 +31,11 @@ export const featureFlags = {
   ENABLE_DEBUG_LOGGING: process.env.DEBUG_MODE === 'true' || false,
   ENABLE_PERFORMANCE_MONITORING: true,
   
+  // Analytics Features
+  ENABLE_ANALYTICS: process.env.ENABLE_ANALYTICS !== 'false', // Default true
+  ENABLE_USER_FEEDBACK: true,
+  ENABLE_ONBOARDING: true,
+  
   // UI Features
   ENABLE_DARK_MODE: true,
   ENABLE_KEYBOARD_NAVIGATION: true,
