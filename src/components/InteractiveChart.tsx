@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -155,9 +155,9 @@ export function InteractiveChart({
       }
     }
 
-  }, [data, zoom, pan, hoveredPoint, chartType, chartWidth, chartHeight, valueRange, minValue, maxValue]);
+  }, [data, zoom, pan, hoveredPoint, chartType, chartWidth, chartHeight, valueRange, minValue, maxValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const drawLineChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
+  const drawLineChart = useCallback((ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -174,9 +174,9 @@ export function InteractiveChart({
     });
     
     ctx.stroke();
-  };
+  }, [maxValue]);
 
-  const drawBarChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
+  const drawBarChart = useCallback((ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     const barWidth = stepX * 0.8;
     
     data.forEach((point, index) => {
@@ -187,9 +187,9 @@ export function InteractiveChart({
       ctx.fillStyle = point.value >= 0 ? '#10b981' : '#ef4444';
       ctx.fillRect(x, y, barWidth, barHeight);
     });
-  };
+  }, [maxValue, minValue]);
 
-  const drawAreaChart = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
+  const drawAreaChart = useCallback((ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number) => {
     // Draw area
     ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
     ctx.beginPath();
@@ -222,9 +222,9 @@ export function InteractiveChart({
     });
     
     ctx.stroke();
-  };
+  }, [maxValue, minValue]);
 
-  const drawAxes = (ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartWidth: number, chartHeight: number) => {
+  const drawAxes = useCallback((ctx: CanvasRenderingContext2D, data: ChartDataPoint[], stepX: number, scaleY: number, padding: number, chartWidth: number, chartHeight: number) => {
     // X-axis
     ctx.strokeStyle = '#374151';
     ctx.lineWidth = 2;
@@ -257,9 +257,9 @@ export function InteractiveChart({
       const date = new Date(data[i].timestamp);
       ctx.fillText(date.toLocaleDateString(), x, chartHeight - padding + 20);
     }
-  };
+  }, [minValue, valueRange]);
 
-  const drawTooltip = (ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, chartWidth: number) => {
+  const drawTooltip = useCallback((ctx: CanvasRenderingContext2D, point: ChartDataPoint, x: number, y: number, chartWidth: number) => {
     const tooltipText = `${point.label || 'Value'}: ${point.value.toFixed(2)}`;
     const tooltipDate = new Date(point.timestamp).toLocaleString();
     
@@ -281,7 +281,7 @@ export function InteractiveChart({
     ctx.textAlign = 'left';
     ctx.fillText(tooltipText, tooltipX + 10, tooltipY + 20);
     ctx.fillText(tooltipDate, tooltipX + 10, tooltipY + 40);
-  };
+  }, []);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
