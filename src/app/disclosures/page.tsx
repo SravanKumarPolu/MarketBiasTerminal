@@ -296,13 +296,13 @@ export default function DisclosuresPage() {
         {/* Enhanced Due Diligence Guidance */}
         <Card className="mb-8 bg-yellow-50 border-yellow-200">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-yellow-800">
+            <CardTitle className="flex items-center gap-2 text-yellow-900">
               <AlertTriangle className="h-5 w-5" />
               Critical Due Diligence Requirements
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4 text-sm text-yellow-800">
+            <div className="space-y-4 text-sm text-yellow-900">
               <div>
                 <strong>1. Always Cross-Check with Established Sources:</strong>
                 <ul className="list-disc ml-6 mt-2 space-y-1">

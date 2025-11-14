@@ -317,13 +317,13 @@ export default function AboutPage() {
         {/* Disclaimer */}
         <Card className="bg-yellow-50 border-yellow-200">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-yellow-800">
+            <CardTitle className="flex items-center gap-2 text-yellow-900">
               <AlertTriangle className="h-5 w-5" />
               Important Disclaimer
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-yellow-800 text-sm">
+            <p className="text-yellow-900 text-sm">
               <strong>Risk Warning:</strong> Trading involves substantial risk of loss and is not suitable for all investors. 
               Past performance is not indicative of future results. The information provided by Market Bias Terminal 
               is for educational purposes only and should not be considered as investment advice. Always consult with 

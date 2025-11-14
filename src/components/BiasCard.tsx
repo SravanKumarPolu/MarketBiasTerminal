@@ -207,7 +207,7 @@ export function BiasCard({ bias, className }: BiasCardProps) {
         <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
           <div className="flex items-start gap-2">
             <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-            <div className="text-xs text-yellow-800 break-words overflow-hidden">
+            <div className="text-xs text-yellow-900 break-words overflow-hidden">
               <div className="line-clamp-4">
                 <strong>Critical:</strong> This bias is ONE INPUT among many. Always cross-check with official exchange data (NSE/BSE), established financial portals, and your own analysis. 
                 <a href="/disclosures" className="text-blue-600 hover:underline ml-1">See full due diligence requirements</a>.

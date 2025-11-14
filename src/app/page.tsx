@@ -102,7 +102,7 @@ export default function Dashboard() {
                     new Date().getTime() - new Date(lastUpdate).getTime() < 5 * 60 * 1000 
                       ? 'bg-green-100 text-green-800' 
                       : new Date().getTime() - new Date(lastUpdate).getTime() < 15 * 60 * 1000
-                      ? 'bg-yellow-100 text-yellow-800'
+                      ? 'bg-yellow-100 text-yellow-900'
                       : 'bg-red-100 text-red-800'
                   }`}>
                     {new Date().getTime() - new Date(lastUpdate).getTime() < 5 * 60 * 1000 
@@ -169,7 +169,7 @@ export default function Dashboard() {
           <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg" role="alert" aria-live="polite">
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-yellow-600" aria-hidden="true" />
-              <span className="text-yellow-800">Market is closed today (Trading Holiday)</span>
+              <span className="text-yellow-900">Market is closed today (Trading Holiday)</span>
             </div>
           </div>
         )}

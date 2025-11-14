@@ -484,7 +484,7 @@ export function DefaultErrorFallback({
 
               <div className="p-4 bg-yellow-50 rounded-lg">
                 <h5 className="font-medium text-yellow-900 mb-2">Privacy Notice</h5>
-                <p className="text-sm text-yellow-800">
+                <p className="text-sm text-yellow-900">
                   The error report contains technical information about the error and your system state. 
                   No personal data is included. This helps us diagnose and fix issues.
                 </p>

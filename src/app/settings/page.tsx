@@ -97,7 +97,7 @@ export default function SettingsPage() {
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div className="flex items-start space-x-2">
                   <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
-                  <div className="text-sm text-yellow-800">
+                  <div className="text-sm text-yellow-900">
                     <div className="font-medium">Note:</div>
                     <div>Live data requires API keys and may have rate limits. Mock data is used for demonstration purposes.</div>
                   </div>

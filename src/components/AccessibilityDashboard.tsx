@@ -61,7 +61,7 @@ export function AccessibilityDashboard({
 
   const getScoreBadge = (score: number) => {
     if (score >= 90) return 'bg-green-100 text-green-800';
-    if (score >= 70) return 'bg-yellow-100 text-yellow-800';
+    if (score >= 70) return 'bg-yellow-100 text-yellow-900';
     return 'bg-red-100 text-red-800';
   };
 
@@ -77,7 +77,7 @@ export function AccessibilityDashboard({
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'high': return 'bg-red-100 text-red-800';
-      case 'medium': return 'bg-yellow-100 text-yellow-800';
+      case 'medium': return 'bg-yellow-100 text-yellow-900';
       case 'low': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
